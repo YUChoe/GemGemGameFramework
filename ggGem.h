@@ -17,4 +17,6 @@
 -(id)init;
 -(id)initAsTest:(int)testValue;
 
+-(id)getObject; // return _obj as NSMutableArray
+
 @end
