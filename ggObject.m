@@ -241,21 +241,25 @@
   _thisStatus = ggStatusInAnimation;
 
   NSMutableArray *actions = [[NSMutableArray alloc] init];
+  [actions addObject:[CCDelayTime actionWithDuration:0.5f]]; //gravity 기다리는 시간 
   
   for (NSNumber *c in blankColumns) {
     NSMutableArray *points = [blankColumns objectForKey:c];
     
-    int bottom = [self __findBottom:[c intValue]];
-    CCLOG(@"채우기:col[%d]:%d번째부터 %d개", [c intValue], bottom, [points count]);
+    //int bottom = [self __findBottom:[c intValue]];
+    //CCLOG(@"채우기:col[%d]:%d번째부터 %d개", [c intValue], bottom, [points count]);
     
     for (int cnt = 1; cnt <= [points count]; cnt++) {
       int _btm = [self __findBottom:[c intValue]];
       CCAction *a = [self __gemDropAtColumn:[c intValue] bottom:_btm];
-      if (a != nil) [actions addObject:a];
+      if (a != nil) {
+        [actions addObject:a];
+        [actions addObject:[CCDelayTime actionWithDuration:0.05f]];
+      }
     }
     
   }
-  CCLOG(@"action count:%d", [actions count]);
+  //CCLOG(@"action count:%d", [actions count]);
   [actions addObject:[CCCallBlock actionWithBlock:^{ _thisStatus = _lastStatus; }]];
   
   //
