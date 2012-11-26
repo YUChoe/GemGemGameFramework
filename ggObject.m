@@ -60,7 +60,7 @@
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:32]];
-  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(10,10)] ];
+  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(32, 64)] ];
 
   
   
@@ -125,7 +125,7 @@
   NSMutableArray *actions = [[NSMutableArray alloc] init];
   
   for (int h = 1; h <= gemBoard_height_from_config; h++) {
-    for (int w = 2; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++ ) {
+    for (int w = 1; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++ ) {
       int bottom = [self __findBottom:w];
       //if (bottom == gemBoard_height_from_config) continue; // 꼭데기 까지 차 있다면 다음줄로 ..
       // TODO: 초기화 과정에선 필요 없음 이 항목을 [self __dropGemAtColumn:(int)] 로 옮길때 같이 옮길 것
@@ -150,25 +150,28 @@
       // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
       CCSprite *gemSprite = [g getCCSprite];
       gemSprite.position = ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (gemBoard_height_from_config+2)*_unitSize)); // starting point
+      [_thisCCLayer addChild:gemSprite];
       
+      float dropSpeed = 0.1f * (gemBoard_height_from_config + 2 - bottom);
       CCAction *ani = [CCSequence actions:
                         [CCCallBlock actionWithBlock:^{
-                          [_thisCCLayer addChild:gemSprite];
-                          [gemSprite runAction:[CCMoveTo actionWithDuration:0.5f position:ccp((w-1)*_unitSize, (bottom-1)*_unitSize)]];
+                          [gemSprite runAction:[CCMoveTo actionWithDuration:dropSpeed
+                                                                   position:ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (bottom-1)*_unitSize))]];
                         }],
+                       [CCDelayTime actionWithDuration:0.02f],
                         //[CCCallBlock actionWithBlock:^{ localAnimationStatus = NO; }],
                         nil];
       [actions addObject:ani];
-      break; // TEST
+      //break; // TEST
     }
-    break; //TEST
+    //break; //TEST
   }
   
   //
   CCFiniteTimeAction *seq = nil;
-  int actionscount = 0;
+  //int actionscount = 0;
 	for (CCFiniteTimeAction *anAction in actions) {
-    CCLOG(@"actions Count:%d", ++actionscount);
+    //CCLOG(@"actions Count:%d", ++actionscount);
 		if (!seq) {
 			seq = anAction;
 		} else {
