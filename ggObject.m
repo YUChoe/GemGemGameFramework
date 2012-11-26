@@ -280,9 +280,24 @@
     ggBoardStruct bs;
     [valueFrom_board getValue:&bs];
     
+    CCSprite *pong = [CCSprite spriteWithFile:@"pong.png"];
+    
     //step1: 해당하는 Gem Sprite 를 날리고
+    pong.position = [bs.Gem getCCSprite].position;
     [_thisCCLayer removeChild:[bs.Gem getCCSprite] cleanup:YES];
     //step2: 버스트 애니메이션
+    
+    //pong.position = [gemPos CGPointValue];
+    [_thisCCLayer addChild:pong];
+    id ac = [CCSequence actions:
+             [CCRotateTo actionWithDuration:0.025f angle:-10],
+             [CCRotateTo actionWithDuration:0.05f angle:10],
+             [CCRotateTo actionWithDuration:0.05f angle:-10],
+             [CCRotateTo actionWithDuration:0.05f angle:10],
+             [CCDelayTime actionWithDuration:0.15f],
+             [CCCallBlock actionWithBlock:^{ [_thisCCLayer removeChild:pong cleanup:YES]; }],
+             nil];
+    [pong runAction:ac];
     //step3: 구조체 reset
     bs.gemType = 0;
     bs.isEmpty = YES;
