@@ -205,6 +205,7 @@
   // 이 method 가 실행 되는 위치가 custom setting 이후이므로 여기에서 전역 변수 전달
   
   //step 1 : 변수초기화
+  srand(time(NULL));
   _board = [[NSMutableDictionary alloc] init];
   _thisGameType = [[_ggConfig objectForKey:@"GemGemGameType"] intValue];
   
