@@ -60,6 +60,8 @@ typedef struct ggBoardStruct ggBoardStruct;
 -(int) __findBottom:(int)columnNumber;
 -(int) __dropGemAtColumn:(int)columnNumber;
 
+-(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
+
 //GameType1 :
 -(void) goGemBurst:(NSValue *)posInBoard;
 -(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems;

@@ -157,6 +157,7 @@
       //TEST:
       //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
       bs.isEmpty = NO;
+      bs.position = ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (bottom)*_unitSize));
       
       NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
       //CCLOG(@"replace before count:%d", [_board count]);
@@ -211,6 +212,7 @@
   
   //step 2 : board 그리기
   [self __drawBoard];
+  
   //step 3 : gem 낙하 width*height 갯수 만큼
   [self __dropGemsForFirstTime];
   CCLOG(@"*** Game Board init complete ***");
@@ -256,7 +258,10 @@
   ggBoardStruct bs;
   [valueFrom_board getValue:&bs];
   int thisType = bs.gemType;
-
+  if (thisType ==0) {
+    CCLOG(@"게임 중에는 gravityJob 때문에 발생하지 않지만 빈칸?!");
+    return;
+  }
   // 돌리고 돌리고 돌리고
   [self GemContinuous:posInBoard gemType:thisType refArray:gems];
   
@@ -264,12 +269,114 @@
   if ([gems count] >= 3) {
     [self gemBurst:gems];
     // TODO: 빈칸채우기
+    NSMutableDictionary *blankColumns = [self __gravityJob:gems];
     // 다시 gem drop
+    [self __gemDrop:blankColumns];
     // 연쇄 판정 
   } else {
     CCLOG(@"모자라는데 잘못터치!");
     // 감점
   }
+}
+-(void) __gemDrop:(NSMutableDictionary *)columns {
+  
+}
+
+// gravity job
+-(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
+  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
+
+  NSMutableDictionary *colDic = [[NSMutableDictionary alloc] init]; // key: 칼럼#, value: pos배열
+  //CCLOG(@"gems count:%d", [gems count]);
+  
+  for (NSValue *gemPos in gems) {
+    CGPoint p = [gemPos CGPointValue];
+    NSNumber *xx = [NSNumber numberWithFloat: p.x];
+    if ([colDic objectForKey:xx] == nil) {
+      NSMutableArray *points = [[NSMutableArray alloc] init];
+      [points addObject:gemPos];
+      [colDic setObject:points forKey:xx];
+    } else {
+      // 이미 있는 칼럼
+      NSMutableArray *points = [colDic objectForKey:xx];
+      [points addObject:gemPos];
+      [colDic setObject:points forKey:xx];
+    }
+  }
+  //CCLOG(@"columns count:%d", [colDic count]);
+  for (NSNumber *c in colDic) {
+    NSMutableArray *points = [colDic objectForKey:c];
+    CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
+
+
+    for (int h = 1; h <= gemBoard_height_from_config; h++) {
+      CCLOG(@"%d회차 중력 작동", h);
+      
+      NSValue *blankBoardPos = nil;
+      NSValue *fallingGemPos = nil;
+      
+      for (int hh = 1; hh <= gemBoard_height_from_config; hh++) {
+        NSValue *posAsNSValue = [NSValue valueWithCGPoint:CGPointMake([c intValue], hh)];
+        NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
+        ggBoardStruct bs;
+        [valueFrom_board getValue:&bs];
+        if (bs.isEmpty == YES && blankBoardPos == nil) {
+          CCLOG(@"아래로부터 거슬러 올라가면서 최초의 빈칸:%d", hh);
+          blankBoardPos = posAsNSValue;
+        } else if (bs.isEmpty == NO && fallingGemPos == nil && blankBoardPos != nil) {
+          CCLOG(@"아래로부터 거슬러 올라가면서 최초의 Gem:%d", hh);
+          fallingGemPos = posAsNSValue;
+          break;
+        }
+      } // of for hh loop
+      
+      // _board 안의 gem@fallingGemPos 속성 변경
+      
+      if (blankBoardPos != nil && fallingGemPos != nil) {
+        CCLOG(@"Gem is falling down");
+        
+        NSValue *valueFrom_board = [_board objectForKey:fallingGemPos];
+        ggBoardStruct bs;
+        [valueFrom_board getValue:&bs];
+        
+        CCSprite *gemSpr = [bs.Gem getCCSprite];
+        
+        NSValue *targetValueFrom_board = [_board objectForKey:blankBoardPos];
+        ggBoardStruct bs_blank;
+        [targetValueFrom_board getValue:&bs_blank];
+        
+        bs_blank.Gem = bs.Gem;
+        bs_blank.gemType = bs.gemType;
+        //bs_blank.position = bs.position;
+        bs_blank.isEmpty = NO;
+        [_board setObject:[NSValue value:&bs_blank withObjCType:@encode(ggBoardStruct)] forKey:blankBoardPos];
+        
+        bs.Gem = nil;
+        bs.gemType = 0;
+        bs.isEmpty = YES;
+        [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:fallingGemPos];
+        
+        // fallingGemPos -> blankBoardPos 애니메이션
+        // TODO: speed
+        CCLOG(@"begin action");
+        //[gemSpr runAction:[CCMoveTo actionWithDuration:0.3f position:[blankBoardPos CGPointValue]]];
+        [gemSpr runAction:[CCMoveTo actionWithDuration:0.3f position:bs_blank.position]];
+        CCLOG(@"finish action");
+        
+        blankBoardPos = nil;
+        fallingGemPos = nil;
+        
+        CCLOG(@"end of cycle");
+      } else {
+        CCLOG(@"nil nil");
+      }
+      
+      //
+      
+    } // of for h
+  } // of for columns
+  
+  return colDic;
 }
 
 // Burst!
@@ -302,6 +409,7 @@
     //step3: 구조체 reset
     bs.gemType = 0;
     bs.isEmpty = YES;
+    [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:gemPos];
   }
 }
 
