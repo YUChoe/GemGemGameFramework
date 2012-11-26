@@ -310,7 +310,7 @@
 
 
     for (int h = 1; h <= gemBoard_height_from_config; h++) {
-      CCLOG(@"%d회차 중력 작동", h);
+      //CCLOG(@"%d회차 중력 작동", h);
       
       NSValue *blankBoardPos = nil;
       NSValue *fallingGemPos = nil;
@@ -321,10 +321,10 @@
         ggBoardStruct bs;
         [valueFrom_board getValue:&bs];
         if (bs.isEmpty == YES && blankBoardPos == nil) {
-          CCLOG(@"아래로부터 거슬러 올라가면서 최초의 빈칸:%d", hh);
+          //CCLOG(@"아래로부터 거슬러 올라가면서 최초의 빈칸:%d", hh);
           blankBoardPos = posAsNSValue;
         } else if (bs.isEmpty == NO && fallingGemPos == nil && blankBoardPos != nil) {
-          CCLOG(@"아래로부터 거슬러 올라가면서 최초의 Gem:%d", hh);
+          //CCLOG(@"아래로부터 거슬러 올라가면서 최초의 Gem:%d", hh);
           fallingGemPos = posAsNSValue;
           break;
         }
@@ -333,7 +333,7 @@
       // _board 안의 gem@fallingGemPos 속성 변경
       
       if (blankBoardPos != nil && fallingGemPos != nil) {
-        CCLOG(@"Gem is falling down");
+        //CCLOG(@"Gem is falling down");
         
         NSValue *valueFrom_board = [_board objectForKey:fallingGemPos];
         ggBoardStruct bs;
@@ -358,17 +358,13 @@
         
         // fallingGemPos -> blankBoardPos 애니메이션
         // TODO: speed
-        CCLOG(@"begin action");
-        //[gemSpr runAction:[CCMoveTo actionWithDuration:0.3f position:[blankBoardPos CGPointValue]]];
         [gemSpr runAction:[CCMoveTo actionWithDuration:0.3f position:bs_blank.position]];
-        CCLOG(@"finish action");
         
         blankBoardPos = nil;
         fallingGemPos = nil;
         
-        CCLOG(@"end of cycle");
       } else {
-        CCLOG(@"nil nil");
+        //CCLOG(@"nil nil");
       }
       
       //
