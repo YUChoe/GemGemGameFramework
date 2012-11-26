@@ -60,7 +60,7 @@
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:32]];
-  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(32, 64)] ];
+  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 64)] ];
 
   
   
@@ -101,6 +101,7 @@
       ggBoardStruct bs;
       bs.isEmpty = YES;
       bs.Gem = nil;
+      bs.gemType = 0;
       bs.position = ccpAdd([(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue], ccp((w-1)*_unitSize, (h-1)*_unitSize));
       
       [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:_posNSValue];
@@ -153,13 +154,15 @@
       ggBoardStruct bs;
       [valueFrom_board getValue:&bs];
       bs.Gem = g; // 등록(교체)
+      bs.gemType = gemType;
+      
       //TEST:
-      if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
+      //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
       bs.isEmpty = NO;
       
       NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
       //CCLOG(@"replace before count:%d", [_board count]);
-      CCLOG(@"Set/Update Gem on (NSMutableDictionary*)_board at pos(%d,%d)", w, bottom);
+      //CCLOG(@"Set/Update Gem on (NSMutableDictionary*)_board at pos(%d,%d)", w, bottom);
       [_board setObject:obj forKey:pos];
       //CCLOG(@"replace after count:%d", [_board count]);
       
@@ -210,6 +213,20 @@
   [self __dropGemsForFirstTime];
   //step 4 :
   
+}
+-(void) touchesEnded:(CGPoint)touchedLocation {
+
+  for (NSValue *posAsNSValue in _board) {
+    NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
+    ggBoardStruct bs;
+    [valueFrom_board getValue:&bs];
+    CCSprite *s = [bs.Gem getCCSprite];
+    if (CGRectContainsPoint(s.boundingBox, touchedLocation)) {
+      CGPoint p = [posAsNSValue CGPointValue];
+      CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
+      return;
+    }
+  }
 }
 
 -(BOOL) isTouchAvailable:(CGPoint)position {

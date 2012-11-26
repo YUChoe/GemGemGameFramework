@@ -22,6 +22,7 @@ struct ggBoardStruct
 {
   BOOL isEmpty;
   ggGem *Gem;
+  int gemType;
   CGPoint position;
   
 };
@@ -47,6 +48,7 @@ typedef struct ggBoardStruct ggBoardStruct;
 
 -(void) run;
 
+-(void) touchesEnded:(CGPoint)touchedLocation;
 -(BOOL) isTouchAvailable:(CGPoint)position;
 
 //내부 메소드 for init
