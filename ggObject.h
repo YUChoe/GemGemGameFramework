@@ -58,7 +58,7 @@ typedef struct ggBoardStruct ggBoardStruct;
 
 //내부 메소드 for game playing
 -(int) __findBottom:(int)columnNumber;
--(int) __dropGemAtColumn:(int)columnNumber;
+-(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom;
 
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
 

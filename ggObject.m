@@ -129,8 +129,7 @@
   _thisStatus = ggStatusInAnimation;
   
   int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
-  int _unitSize = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
-  CGPoint boardAnchorPosition = [(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue];
+
   //int lastActionTag = 0;
   NSMutableArray *actions = [[NSMutableArray alloc] init];
   
@@ -138,50 +137,8 @@
     
     for (int w = 1; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++ ) {
       int bottom = [self __findBottom:w];
-      //if (bottom == gemBoard_height_from_config) continue; // 꼭데기 까지 차 있다면 다음줄로 ..
-      // TODO: 초기화 과정에선 필요 없음 이 항목을 [self __dropGemAtColumn:(int)] 로 옮길때 같이 옮길 것
-      
-      //step1: gem 생성
-      int gemType = rand() % 4 + 1; // 1,2,3,4
-      //CCLOG(@"random GemType:%d", gemType);
-      ggGem *g = [[ggGem alloc] initAsTest:gemType];
-      
-      //step2: 해당 _board 객체에 Gem 등록
-      NSValue *pos = [NSValue valueWithCGPoint:(CGPointMake(w, bottom))];
-      NSValue *valueFrom_board = [_board objectForKey:pos];
-      ggBoardStruct bs;
-      [valueFrom_board getValue:&bs];
-      bs.Gem = g; // 등록(교체)
-      bs.gemType = gemType;
-      
-      //TEST:
-      //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
-      bs.isEmpty = NO;
-      bs.position = ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (bottom)*_unitSize));
-      
-      NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
-      //CCLOG(@"replace before count:%d", [_board count]);
-      //CCLOG(@"Set/Update Gem on (NSMutableDictionary*)_board at pos(%d,%d)", w, bottom);
-      [_board setObject:obj forKey:pos];
-      //CCLOG(@"replace after count:%d", [_board count]);
-      
-      //step3: 애니메이션
-      // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
-      CCSprite *gemSprite = [g getCCSprite];
-      gemSprite.position = ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (gemBoard_height_from_config+2)*_unitSize)); // starting point
-      [_thisCCLayer addChild:gemSprite];
-      
-      float dropSpeed = 0.1f * (gemBoard_height_from_config + 2 - bottom);
-      CGPoint targetPosition = ccpAdd(boardAnchorPosition, ccp((w-1)*_unitSize, (bottom)*_unitSize)); 
-      
-      CCAction *ani = [CCSequence actions:
-                        [CCCallBlock actionWithBlock:^{
-                          [gemSprite runAction:[CCMoveTo actionWithDuration:dropSpeed position:targetPosition]];
-                        }],
-                       [CCDelayTime actionWithDuration:0.02f],
-                        //[CCCallBlock actionWithBlock:^{ localAnimationStatus = NO; }],
-                        nil];
-      [actions addObject:ani];
+      CCAction *ani = [self __gemDropAtColumn:w bottom:bottom];
+      if (ani != nil) [actions addObject:ani];
     }
   }
   // state flag 원래 대로 변경을 가장 마지막 action 으로 push 
@@ -227,7 +184,7 @@
     CCSprite *s = [bs.Gem getCCSprite];
     if (CGRectContainsPoint(s.boundingBox, touchedLocation)) {
       CGPoint p = [posAsNSValue CGPointValue];
-      CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
+      //CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
       
       if ( _thisGameType == 1) {
         // BurstGem Style
@@ -271,14 +228,60 @@
     // TODO: 빈칸채우기
     NSMutableDictionary *blankColumns = [self __gravityJob:gems];
     // 다시 gem drop
-    [self __gemDrop:blankColumns];
+    //[self __gemDrop:blankColumns];
     // 연쇄 판정 
   } else {
     CCLOG(@"모자라는데 잘못터치!");
     // 감점
   }
 }
--(void) __gemDrop:(NSMutableDictionary *)columns {
+
+-(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom {
+  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
+  if (bottom == gemBoard_height_from_config) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
+
+  CGPoint boardAnchorPosition = [(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue];
+  int _unitSize = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
+ 
+  //step1: gem 생성
+  int gemType = rand() % 4 + 1; // 1,2,3,4
+                                //CCLOG(@"random GemType:%d", gemType);
+  ggGem *g = [[ggGem alloc] initAsTest:gemType];
+  
+  //step2: 해당 _board 객체에 Gem 등록
+  NSValue *pos = [NSValue valueWithCGPoint:(CGPointMake(columnNumber, bottom))];
+  NSValue *valueFrom_board = [_board objectForKey:pos];
+  ggBoardStruct bs;
+  [valueFrom_board getValue:&bs];
+  bs.Gem = g; // 등록(교체)
+  bs.gemType = gemType;
+  
+  //TEST:
+  //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
+  bs.isEmpty = NO;
+  bs.position = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1) * _unitSize, (bottom)*_unitSize));
+  
+  NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
+                                                                          //CCLOG(@"replace before count:%d", [_board count]);
+                                                                          //CCLOG(@"Set/Update Gem on (NSMutableDictionary*)_board at pos(%d,%d)", w, bottom);
+  [_board setObject:obj forKey:pos];
+  //CCLOG(@"replace after count:%d", [_board count]);
+  
+  //step3: 애니메이션
+  // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
+  CCSprite *gemSprite = [g getCCSprite];
+  gemSprite.position = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1)*_unitSize, (gemBoard_height_from_config+2)*_unitSize)); // starting point
+  [_thisCCLayer addChild:gemSprite];
+  
+  float dropSpeed = 0.1f * (gemBoard_height_from_config + 2 - bottom);
+  CGPoint targetPosition = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1)*_unitSize, (bottom)*_unitSize));
+  
+  CCAction *ani = [CCSequence actions:
+                   [CCCallBlock actionWithBlock:^{ [gemSprite runAction:[CCMoveTo actionWithDuration:dropSpeed position:targetPosition]]; }],
+                   [CCDelayTime actionWithDuration:0.02f],
+                   //[CCCallBlock actionWithBlock:^{ localAnimationStatus = NO; }],
+                   nil];
+  return ani;
   
 }
 
@@ -306,8 +309,7 @@
   //CCLOG(@"columns count:%d", [colDic count]);
   for (NSNumber *c in colDic) {
     NSMutableArray *points = [colDic objectForKey:c];
-    CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
-
+    //CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
 
     for (int h = 1; h <= gemBoard_height_from_config; h++) {
       //CCLOG(@"%d회차 중력 작동", h);
