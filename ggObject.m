@@ -183,7 +183,7 @@
     [valueFrom_board getValue:&bs];
     CCSprite *s = [bs.Gem getCCSprite];
     if (CGRectContainsPoint(s.boundingBox, touchedLocation)) {
-      CGPoint p = [posAsNSValue CGPointValue];
+      //CGPoint p = [posAsNSValue CGPointValue];
       //CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
       
       if ( _thisGameType == 1) {
@@ -228,12 +228,49 @@
     // TODO: 빈칸채우기
     NSMutableDictionary *blankColumns = [self __gravityJob:gems];
     // 다시 gem drop
-    //[self __gemDrop:blankColumns];
+    [self __fillBlank:blankColumns];
     // 연쇄 판정 
   } else {
     CCLOG(@"모자라는데 잘못터치!");
     // 감점
   }
+}
+
+-(void) __fillBlank:(NSMutableDictionary *)blankColumns {
+  ggStatus _lastStatus = _thisStatus;
+  _thisStatus = ggStatusInAnimation;
+
+  NSMutableArray *actions = [[NSMutableArray alloc] init];
+  
+  for (NSNumber *c in blankColumns) {
+    NSMutableArray *points = [blankColumns objectForKey:c];
+    
+    int bottom = [self __findBottom:[c intValue]];
+    CCLOG(@"채우기:col[%d]:%d번째부터 %d개", [c intValue], bottom, [points count]);
+    
+    for (int cnt = 1; cnt <= [points count]; cnt++) {
+      int _btm = [self __findBottom:[c intValue]];
+      CCAction *a = [self __gemDropAtColumn:[c intValue] bottom:_btm];
+      if (a != nil) [actions addObject:a];
+    }
+    
+  }
+  CCLOG(@"action count:%d", [actions count]);
+  [actions addObject:[CCCallBlock actionWithBlock:^{ _thisStatus = _lastStatus; }]];
+  
+  //
+  CCFiniteTimeAction *seq = nil;
+  //int actionscount = 0;
+	for (CCFiniteTimeAction *anAction in actions) {
+    //CCLOG(@"actions Count:%d", ++actionscount);
+		if (!seq) {
+			seq = anAction;
+		} else {
+			seq = [CCSequence actionOne:seq two:anAction];
+		}
+	}
+  
+  [_thisCCLayer runAction:seq];  
 }
 
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom {
@@ -308,7 +345,7 @@
   }
   //CCLOG(@"columns count:%d", [colDic count]);
   for (NSNumber *c in colDic) {
-    NSMutableArray *points = [colDic objectForKey:c];
+    //NSMutableArray *points = [colDic objectForKey:c];
     //CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
 
     for (int h = 1; h <= gemBoard_height_from_config; h++) {
