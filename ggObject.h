@@ -34,7 +34,8 @@ typedef struct ggBoardStruct ggBoardStruct;
   CCLayer             *_thisCCLayer;
   NSMutableDictionary *_board;
   ggStatus            _thisStatus;
-  BOOL localAnimationStatus;
+  //BOOL                localAnimationStatus;
+  int                 _thisGameType;
 }
 
 // init, status

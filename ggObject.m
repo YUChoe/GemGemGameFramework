@@ -46,7 +46,7 @@
 }
 
 -(void)loadDefaultConfiguration {
-  [self setConfig:@"GemGameType" value:[NSNumber numberWithInt:1]];
+  [self setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:1]];
   
   [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:4]];
   /*
@@ -62,8 +62,6 @@
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:32]];
   [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 64)] ];
 
-  
-  
 }
 
 -(void) setConfig:(NSString *)keyString value:(id)valueObject {
@@ -204,16 +202,19 @@
 }
 
 -(void) run {
+  // 이 method 가 실행 되는 위치가 custom setting 이후이므로 여기에서 전역 변수 전달
+  
   //step 1 : 변수초기화
   _board = [[NSMutableDictionary alloc] init];
+  _thisGameType = [[_ggConfig objectForKey:@"GemGemGameType"] intValue];
   
   //step 2 : board 그리기
   [self __drawBoard];
   //step 3 : gem 낙하 width*height 갯수 만큼
   [self __dropGemsForFirstTime];
-  //step 4 :
-  
+  CCLOG(@"*** Game Board init complete ***");
 }
+
 -(void) touchesEnded:(CGPoint)touchedLocation {
 
   for (NSValue *posAsNSValue in _board) {
@@ -224,6 +225,13 @@
     if (CGRectContainsPoint(s.boundingBox, touchedLocation)) {
       CGPoint p = [posAsNSValue CGPointValue];
       CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
+      
+      if ( _thisGameType == 1) {
+        // BurstGem Style
+        
+      } else if (_thisGameType == 2) {
+        // beJuweled Style
+      }
       return;
     }
   }
