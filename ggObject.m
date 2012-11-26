@@ -228,7 +228,10 @@
       
       if ( _thisGameType == 1) {
         // BurstGem Style
-        
+        if ([self isTouchAvailable:touchedLocation]) {
+          // go Burst !
+          [self goGemBurst:posAsNSValue];
+        }
       } else if (_thisGameType == 2) {
         // beJuweled Style
       }
@@ -238,14 +241,73 @@
 }
 
 -(BOOL) isTouchAvailable:(CGPoint)position {
+  if (_thisStatus == ggStatusInAnimation) return NO;
+  
   return YES;
 }
 
 //Game1 :
--(BOOL) isGemBurstable:(NSValue *)posInBoard {
-  // TODO : 3개 이상 연속 체크 알고리즘
-  return YES;
+-(void) goGemBurst:(NSValue *)posInBoard {
+  NSMutableArray *gems = [[NSMutableArray alloc] init];
+  
+  // seeding
+  NSValue *valueFrom_board = [_board objectForKey:posInBoard];
+  ggBoardStruct bs;
+  [valueFrom_board getValue:&bs];
+  int thisType = bs.gemType;
+
+  // 돌리고 돌리고 돌리고
+  [self GemContinuous:posInBoard gemType:thisType refArray:gems];
+  
+  // 결과물인 gems 의 카운트가 3개 이상?
+  if ([gems count] >= 3) {
+    
+  }
 }
 
+// 재귀로 호출 될 함수
+-(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems {
+  //CCLOG(@"continuous check :GemType[%d](%.f,%.f)", thisType, [posAsNSValue CGPointValue].x, [posAsNSValue CGPointValue].y);
+
+  if (![gems containsObject:posAsNSValue] && [self isSameGem:thisType withPos:posAsNSValue]) {
+    // 배열에 추가
+    [gems addObject:posAsNSValue];
+    
+    CGPoint _posSeed = [posAsNSValue CGPointValue];
+    NSValue *_pos;
+    // 북쪽호출
+    if (_posSeed.y != [[_ggConfig objectForKey:@"GemBoard_height"] intValue]) {
+      _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x, _posSeed.y + 1)];
+      [self GemContinuous:_pos gemType:thisType refArray:gems];
+    }
+    // 남쪽
+    if (_posSeed.y != 1) {
+    _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x, _posSeed.y - 1)];
+    [self GemContinuous:_pos gemType:thisType refArray:gems];
+    }
+    // 동
+    if (_posSeed.x != [[_ggConfig objectForKey:@"GemBoard_width"] intValue]) {
+    _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x + 1, _posSeed.y)];
+    [self GemContinuous:_pos gemType:thisType refArray:gems];
+    }
+    // 서
+    if (_posSeed.x != 1) {
+    _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x - 1, _posSeed.y)];
+    [self GemContinuous:_pos gemType:thisType refArray:gems];
+    }
+  }
+}
+
+-(BOOL) isSameGem:(int)thisType withPos:(NSValue *)posAsNSValue {
+  NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
+  ggBoardStruct bs;
+  [valueFrom_board getValue:&bs];
+  //CCLOG(@"isSameGem: thisGem[%d] vs SeedGem[%d]", bs.gemType, thisType);
+  if (bs.gemType == thisType) {
+    return YES;
+  } else {
+    return NO;
+  }
+}
 
 @end

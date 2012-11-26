@@ -61,7 +61,8 @@ typedef struct ggBoardStruct ggBoardStruct;
 -(int) __dropGemAtColumn:(int)columnNumber;
 
 //GameType1 :
--(BOOL) isGemBurstable:(NSValue *)posInBoard;
+//-(BOOL) isGemBurstable:(NSValue *)posInBoard;
+-(void) goGemBurst:(NSValue *)posInBoard;
 // has connection
 
 //GameType2 :
