@@ -61,9 +61,8 @@ typedef struct ggBoardStruct ggBoardStruct;
 -(int) __dropGemAtColumn:(int)columnNumber;
 
 //GameType1 :
-//-(BOOL) isGemBurstable:(NSValue *)posInBoard;
 -(void) goGemBurst:(NSValue *)posInBoard;
-// has connection
+-(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems;
 
 //GameType2 :
 //replace between posA and posB

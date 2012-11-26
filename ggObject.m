@@ -261,9 +261,34 @@
   
   // 결과물인 gems 의 카운트가 3개 이상?
   if ([gems count] >= 3) {
-    
+    [self gemBurst:gems];
+    // TODO: 빈칸채우기
+    // 다시 gem drop
+    // 연쇄 판정 
+  } else {
+    CCLOG(@"모자라는데 잘못터치!");
+    // 감점
   }
 }
+
+// Burst!
+-(void) gemBurst:(NSMutableArray *)gems {
+  for (NSValue *gemPos in gems) {
+    //CGPoint pos = [gemPos CGPointValue];
+    //CCLOG(@"butst:(%.f,%.f)", pos.x, pos.y);
+    NSValue *valueFrom_board = [_board objectForKey:gemPos];
+    ggBoardStruct bs;
+    [valueFrom_board getValue:&bs];
+    
+    //step1: 해당하는 Gem Sprite 를 날리고
+    [_thisCCLayer removeChild:[bs.Gem getCCSprite] cleanup:YES];
+    //step2: 버스트 애니메이션
+    //step3: 구조체 reset
+    bs.gemType = 0;
+    bs.isEmpty = YES;
+  }
+}
+
 
 // 재귀로 호출 될 함수
 -(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems {
