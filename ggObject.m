@@ -357,8 +357,11 @@
         [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:fallingGemPos];
         
         // fallingGemPos -> blankBoardPos 애니메이션
-        // TODO: speed
-        [gemSpr runAction:[CCMoveTo actionWithDuration:0.3f position:bs_blank.position]];
+        [gemSpr runAction:[CCSequence actions:
+                           [CCDelayTime actionWithDuration:0.2f],
+                           [CCMoveTo actionWithDuration:(0.2f) position:bs_blank.position],
+                           nil]
+         ];
         
         blankBoardPos = nil;
         fallingGemPos = nil;
