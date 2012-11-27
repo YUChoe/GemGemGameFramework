@@ -24,7 +24,6 @@ struct ggBoardStruct
   ggGem *Gem;
   int gemType;
   CGPoint position;
-  
 };
 typedef struct ggBoardStruct ggBoardStruct;
 
@@ -36,6 +35,7 @@ typedef struct ggBoardStruct ggBoardStruct;
   ggStatus            _thisStatus;
   //BOOL                localAnimationStatus;
   int                 _thisGameType;
+  int                 _gameScore;
 }
 
 // init, status
@@ -51,6 +51,9 @@ typedef struct ggBoardStruct ggBoardStruct;
 
 -(void) touchesEnded:(CGPoint)touchedLocation;
 -(BOOL) isTouchAvailable:(CGPoint)position;
+
+-(int) getScore;
+-(void) setScore:(int)newScore;
 
 //내부 메소드 for init
 -(void) __dropGemsForFirstTime;

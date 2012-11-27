@@ -69,7 +69,7 @@
   [_ggConfig setObject:valueObject forKey:keyString];
   //CCLOG(@"_ggConfig count(after):%d", [_ggConfig count]);
 
-  CCLOG(@"_ggConfig[%@]:%@", keyString, ([_ggConfig objectForKey:keyString] != nil) ? @"ok" : @"failed");
+  //CCLOG(@"_ggConfig[%@]:%@", keyString, ([_ggConfig objectForKey:keyString] != nil) ? @"ok" : @"failed");
 }
 
 -(NSObject *) getConfig:(NSString *)keyString {
@@ -81,6 +81,19 @@
   return o;
 }
 
+
+-(int) getScore {
+  return _gameScore;
+}
+-(void) setScore:(int)newScore {
+  _gameScore = newScore;
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ggEVENT_ScoreUpdate"
+                                                      object:self
+                                                    userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_gameScore] forKey:@"score"]];
+  
+}
+
+
 -(void) __drawBoard {
   _board = [[NSMutableDictionary alloc] init];
   int _unitSize = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
@@ -88,14 +101,7 @@
   for (int h = 1; h <= [[_ggConfig objectForKey:@"GemBoard_height"] intValue]; h++) {
     for (int w = 1; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++) {
       NSValue *_posNSValue = [NSValue valueWithCGPoint:(CGPointMake(w, h))];
-      /*
-       // add:
-       [array addObject:[NSValue value:&p withObjCType:@encode(struct Point)]];
-       
-       // extract:
-       struct Point p;
-       [[array objectAtIndex:i] getValue:&p];
-       */
+
       ggBoardStruct bs;
       bs.isEmpty = YES;
       bs.Gem = nil;
@@ -227,6 +233,9 @@
     [self gemBurst:gems];
     // TODO: 빈칸채우기
     NSMutableDictionary *blankColumns = [self __gravityJob:gems];
+    // TEST: Score Update
+    [self setScore: _gameScore + ([gems count] * 10)];
+    
     // 다시 gem drop
     [self __fillBlank:blankColumns];
     // 연쇄 판정 
