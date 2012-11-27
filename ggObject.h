@@ -36,6 +36,8 @@ typedef struct ggBoardStruct ggBoardStruct;
   //BOOL                localAnimationStatus;
   int                 _thisGameType;
   int                 _gameScore;
+  
+  CGPoint             _lastEventTouchPoint;
 }
 
 // init, status

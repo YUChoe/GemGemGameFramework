@@ -60,7 +60,7 @@
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:32]];
-  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 64)] ];
+  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
 
 }
 
@@ -86,10 +86,18 @@
   return _gameScore;
 }
 -(void) setScore:(int)newScore {
+  int margin = newScore - _gameScore;
   _gameScore = newScore;
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ggEVENT_ScoreUpdate"
-                                                      object:self
-                                                    userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:_gameScore] forKey:@"score"]];
+  
+  NSMutableDictionary *userInfoMDic = [[NSMutableDictionary alloc] init];
+  
+  [userInfoMDic setObject:[NSNumber numberWithInt:margin] forKey:@"margin"];
+  [userInfoMDic setObject:[NSNumber numberWithInt:_gameScore] forKey:@"score"];
+  [userInfoMDic setObject:[NSValue valueWithCGPoint:_lastEventTouchPoint] forKey:@"point"];
+  
+  NSDictionary *userInfoDic = [[userInfoMDic copy] autorelease];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ggEVENT_ScoreUpdate" object:self userInfo:userInfoDic];
   
 }
 
@@ -196,6 +204,7 @@
         // BurstGem Style
         if ([self isTouchAvailable:touchedLocation]) {
           // go Burst !
+          _lastEventTouchPoint = touchedLocation;
           [self goGemBurst:posAsNSValue];
         }
       } else if (_thisGameType == 2) {
