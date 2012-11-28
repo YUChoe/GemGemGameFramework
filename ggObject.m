@@ -195,7 +195,11 @@
     ggBoardStruct bs;
     [valueFrom_board getValue:&bs];
     CCSprite *s = [bs.Gem getCCSprite];
-    if (CGRectContainsPoint(s.boundingBox, touchedLocation)) {
+    CGRect box = CGRectMake(s.boundingBox.origin.x - ((ggConfig.GemSizeBYPixel - s.boundingBox.size.width) / 2),
+                             s.boundingBox.origin.y - ((ggConfig.GemSizeBYPixel - s.boundingBox.size.height) / 2),
+                             ggConfig.GemSizeBYPixel, ggConfig.GemSizeBYPixel);
+    
+    if (CGRectContainsPoint(box, touchedLocation)) {
       //CGPoint p = [posAsNSValue CGPointValue];
       //CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
       
@@ -300,7 +304,7 @@
   //step1: gem 생성
   int gemType = rand() % 4 + 1; // 1,2,3,4
                                 //CCLOG(@"random GemType:%d", gemType);
-  ggGem *g = [[ggGem alloc] initAsTest:gemType];
+  ggGem *g = [[ggGem alloc] initAsTest:gemType size:ggConfig.GemSizeBYPixel];
   
   //step2: 해당 _board 객체에 Gem 등록
   NSValue *pos = [NSValue valueWithCGPoint:(CGPointMake(columnNumber, bottom))];

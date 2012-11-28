@@ -16,7 +16,7 @@
 }
 
 -(id)init;
--(id)initAsTest:(int)testValue;
+-(id)initAsTest:(int)testValue size:(int)size;
 
 -(id)getObject; // return _obj as NSMutableArray
 -(CCSprite *)getCCSprite;

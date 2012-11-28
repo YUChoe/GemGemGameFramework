@@ -18,11 +18,11 @@
   return self;
 }
 
--(id)initAsTest:(int)testValue {
+-(id)initAsTest:(int)testValue size:(int)size{
   if ( self = [super init] ) {
     _obj = [[NSMutableArray alloc] init];
   
-    [self _test:testValue];
+    [self _test:testValue size:size];
     
   }
   return self;
@@ -33,7 +33,7 @@
   sprite.scaleY = height / sprite.contentSize.height;
 }
 
--(void) _test:(int)testValue {
+-(void) _test:(int)testValue size:(int)size {
   if (testValue == 1) {
     _sprite = [CCSprite spriteWithFile:@"1.png"];
   } else if (testValue == 2) {
@@ -43,9 +43,7 @@ _sprite = [CCSprite spriteWithFile:@"3.png"];
   } else if (testValue == 4) {
 _sprite = [CCSprite spriteWithFile:@"4.png"];
   }
-  //[self resizeSprite:_sprite toWidth:32 toHeight:32];
-  [self resizeSprite:_sprite toWidth:40 toHeight:40];
-  //[_obj addObject:_sprite];
+  [self resizeSprite:_sprite toWidth:(size*0.8) toHeight:(size*0.8)];
 } // end of test
 
 -(CCSprite *)getCCSprite {
