@@ -97,24 +97,23 @@
   
   NSDictionary *userInfoDic = [[userInfoMDic copy] autorelease];
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ggEVENT_ScoreUpdate" object:self userInfo:userInfoDic];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_SCORE_UPDATE object:self userInfo:userInfoDic];
   
 }
 
 
 -(void) __drawBoard {
   _board = [[NSMutableDictionary alloc] init];
-  int _unitSize = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
   
-  for (int h = 1; h <= [[_ggConfig objectForKey:@"GemBoard_height"] intValue]; h++) {
-    for (int w = 1; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++) {
+  for (int h = 1; h <= ggConfig.BoardHeight; h++) {
+    for (int w = 1; w <= ggConfig.BoardWidth ; w++) {
       NSValue *_posNSValue = [NSValue valueWithCGPoint:(CGPointMake(w, h))];
 
       ggBoardStruct bs;
       bs.isEmpty = YES;
       bs.Gem = nil;
       bs.gemType = 0;
-      bs.position = ccpAdd([(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue], ccp((w-1)*_unitSize, (h-1)*_unitSize));
+      bs.position = ccpAdd([(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue], ccp((w-1)*ggConfig.GemSizeBYPixel, (h-1)*ggConfig.GemSizeBYPixel));
       
       [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:_posNSValue];
     }
@@ -122,9 +121,7 @@
 }
 
 -(int) __findBottom:(int)columnNumber {
-  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
-
-  for (int h = gemBoard_height_from_config; h>=1 ; h--) {
+  for (int h = ggConfig.BoardHeight; h>=1 ; h--) {
     NSValue *pos = [NSValue valueWithCGPoint:CGPointMake(columnNumber, h)];
     NSValue *valueFrom_board = [_board objectForKey:pos];
     ggBoardStruct bs;
@@ -142,14 +139,10 @@
   ggStatus _lastStatus = _thisStatus;
   _thisStatus = ggStatusInAnimation;
   
-  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
-
-  //int lastActionTag = 0;
   NSMutableArray *actions = [[NSMutableArray alloc] init];
   
-  for (int h = 1; h <= gemBoard_height_from_config; h++) {
-    
-    for (int w = 1; w <= [[_ggConfig objectForKey:@"GemBoard_width"] intValue]; w++ ) {
+  for (int h = 1; h <= ggConfig.BoardHeight; h++) {
+    for (int w = 1; w <= ggConfig.BoardWidth; w++ ) {
       int bottom = [self __findBottom:w];
       CCAction *ani = [self __gemDropAtColumn:w bottom:bottom];
       if (ani != nil) [actions addObject:ani];
@@ -179,8 +172,14 @@
   //step 1 : 변수초기화
   srand(time(NULL));
   _board = [[NSMutableDictionary alloc] init];
-  _thisGameType = [[_ggConfig objectForKey:@"GemGemGameType"] intValue];
-  
+
+  // config
+  ggConfig.GameType            = [[_ggConfig objectForKey:@"GemGemGameType"]     intValue];
+  ggConfig.GemSizeBYPixel      = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
+  ggConfig.BoardHeight         = [[_ggConfig objectForKey:@"GemBoard_height"]    intValue];
+  ggConfig.BoardWidth          = [[_ggConfig objectForKey:@"GemBoard_width"]     intValue];
+  ggConfig.BoardAnchorPosition = [[_ggConfig objectForKey:@"GemBoard_anchor_pos"] CGPointValue];
+
   //step 2 : board 그리기
   [self __drawBoard];
   
@@ -200,14 +199,14 @@
       //CGPoint p = [posAsNSValue CGPointValue];
       //CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
       
-      if ( _thisGameType == 1) {
+      if ( ggConfig.GameType == 1) {
         // BurstGem Style
         if ([self isTouchAvailable:touchedLocation]) {
           // go Burst !
           _lastEventTouchPoint = touchedLocation;
           [self goGemBurst:posAsNSValue];
         }
-      } else if (_thisGameType == 2) {
+      } else if (ggConfig.GameType == 2) {
         // beJuweled Style
       }
       return;
@@ -296,12 +295,8 @@
 }
 
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom {
-  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
-  if (bottom == gemBoard_height_from_config) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
+  if (bottom == ggConfig.BoardHeight) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
 
-  CGPoint boardAnchorPosition = [(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue];
-  int _unitSize = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
- 
   //step1: gem 생성
   int gemType = rand() % 4 + 1; // 1,2,3,4
                                 //CCLOG(@"random GemType:%d", gemType);
@@ -318,7 +313,7 @@
   //TEST:
   //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
   bs.isEmpty = NO;
-  bs.position = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1) * _unitSize, (bottom)*_unitSize));
+  bs.position = ccpAdd(ggConfig.BoardAnchorPosition, ccp((columnNumber - 1) * ggConfig.GemSizeBYPixel, (bottom)*ggConfig.GemSizeBYPixel));
   
   NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
                                                                           //CCLOG(@"replace before count:%d", [_board count]);
@@ -329,11 +324,12 @@
   //step3: 애니메이션
   // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
   CCSprite *gemSprite = [g getCCSprite];
-  gemSprite.position = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1)*_unitSize, (gemBoard_height_from_config+2)*_unitSize)); // starting point
+  gemSprite.position = ccpAdd(ggConfig.BoardAnchorPosition,
+                              ccp((columnNumber - 1)*ggConfig.GemSizeBYPixel, (ggConfig.BoardHeight+2)*ggConfig.GemSizeBYPixel)); // starting point
   [_thisCCLayer addChild:gemSprite];
   
-  float dropSpeed = 0.1f * (gemBoard_height_from_config + 2 - bottom);
-  CGPoint targetPosition = ccpAdd(boardAnchorPosition, ccp((columnNumber - 1)*_unitSize, (bottom)*_unitSize));
+  float dropSpeed = 0.1f * (ggConfig.BoardHeight + 2 - bottom);
+  CGPoint targetPosition = ccpAdd(ggConfig.BoardAnchorPosition, ccp((columnNumber - 1)*ggConfig.GemSizeBYPixel, (bottom)*ggConfig.GemSizeBYPixel));
   
   CCAction *ani = [CCSequence actions:
                    [CCCallBlock actionWithBlock:^{ [gemSprite runAction:[CCMoveTo actionWithDuration:dropSpeed position:targetPosition]]; }],
@@ -346,8 +342,6 @@
 
 // gravity job
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
-  int gemBoard_height_from_config = [[_ggConfig objectForKey:@"GemBoard_height"] intValue];
-
   NSMutableDictionary *colDic = [[NSMutableDictionary alloc] init]; // key: 칼럼#, value: pos배열
   //CCLOG(@"gems count:%d", [gems count]);
   
@@ -370,13 +364,13 @@
     //NSMutableArray *points = [colDic objectForKey:c];
     //CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
 
-    for (int h = 1; h <= gemBoard_height_from_config; h++) {
+    for (int h = 1; h <= ggConfig.BoardHeight; h++) {
       //CCLOG(@"%d회차 중력 작동", h);
       
       NSValue *blankBoardPos = nil;
       NSValue *fallingGemPos = nil;
       
-      for (int hh = 1; hh <= gemBoard_height_from_config; hh++) {
+      for (int hh = 1; hh <= ggConfig.BoardHeight; hh++) {
         NSValue *posAsNSValue = [NSValue valueWithCGPoint:CGPointMake([c intValue], hh)];
         NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
         ggBoardStruct bs;
@@ -485,7 +479,7 @@
     CGPoint _posSeed = [posAsNSValue CGPointValue];
     NSValue *_pos;
     // 북쪽호출
-    if (_posSeed.y != [[_ggConfig objectForKey:@"GemBoard_height"] intValue]) {
+    if (_posSeed.y != ggConfig.BoardHeight) {
       _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x, _posSeed.y + 1)];
       [self GemContinuous:_pos gemType:thisType refArray:gems];
     }
@@ -495,7 +489,7 @@
     [self GemContinuous:_pos gemType:thisType refArray:gems];
     }
     // 동
-    if (_posSeed.x != [[_ggConfig objectForKey:@"GemBoard_width"] intValue]) {
+    if (_posSeed.x != ggConfig.BoardWidth) {
     _pos = [NSValue valueWithCGPoint:CGPointMake(_posSeed.x + 1, _posSeed.y)];
     [self GemContinuous:_pos gemType:thisType refArray:gems];
     }

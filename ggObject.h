@@ -52,7 +52,8 @@ typedef struct ggConfigStruct ggConfigStruct;
   NSMutableDictionary *_board;
   ggStatus            _thisStatus;
   //BOOL                localAnimationStatus;
-  int                 _thisGameType;
+  ggConfigStruct      ggConfig;
+  
   int                 _gameScore;
   
   CGPoint             _lastEventTouchPoint;
