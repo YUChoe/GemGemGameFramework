@@ -58,7 +58,7 @@
   */
   
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
-  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
+  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:6]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:40]];
   //[self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
   [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(20, 100)] ];
@@ -101,7 +101,6 @@
   
 }
 
-
 -(void) __drawBoard {
   _board = [[NSMutableDictionary alloc] init];
   
@@ -114,6 +113,7 @@
       bs.Gem = nil;
       bs.gemType = 0;
       bs.position = ccpAdd([(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue], ccp((w-1)*ggConfig.GemSizeBYPixel, (h-1)*ggConfig.GemSizeBYPixel));
+      // TODO: 만약 여기 CGRect 가 있어서 touch 와 비교 한다면?
       
       [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:_posNSValue];
     }
@@ -219,7 +219,7 @@
 }
 
 -(BOOL) isTouchAvailable:(CGPoint)position {
-  if (_thisStatus == ggStatusInAnimation) return NO;
+  if (_thisStatus == ggStatusInAnimation || _thisStatus == ggStatusStopTheGame) return NO;
   
   return YES;
 }
@@ -250,11 +250,58 @@
     
     // 다시 gem drop
     [self __fillBlank:blankColumns];
-    // 연쇄 판정 
+  
   } else {
     CCLOG(@"모자라는데 잘못터치!");
     // 감점
   }
+}
+
+-(void) __afterAnimations {
+  // 연쇄 판정
+
+  // 게임오버 판정
+  if ([self __isGameOver] == YES) {
+    _thisStatus = ggStatusStopTheGame;
+    CCLOG(@"game over");
+    //NSDictionary * userInfoDic = [NSDictionary dictionaryWithObject:@"" forKey:@""];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self userInfo:userInfoDic];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self];
+  }
+}
+
+-(BOOL) __isGameOver {
+  NSMutableArray *gems = [[NSMutableArray alloc] init]; // 연속 확인 할 결과물
+  NSMutableArray *checkedGem = [[NSMutableArray alloc] init]; // 확인 했는지 체크 gems 가 돌아오면 여기에 더한다
+  
+  for (NSValue *posAsNSValue in _board) {
+    //CCLOG(@"checkLoop:_board(%.f,%.f)", [posAsNSValue CGPointValue].x, [posAsNSValue CGPointValue].y);
+    NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
+    ggBoardStruct bs;
+    [valueFrom_board getValue:&bs];
+    if (bs.gemType == 0 || [checkedGem containsObject:posAsNSValue]) {
+      //CCLOG(@"중복방지 continue");
+      continue; // 중복방지 
+    }
+
+    // 돌리고 돌리고 돌리고
+    [checkedGem addObject:posAsNSValue];
+    [gems removeAllObjects]; // 돌리기 전에 초기화 
+    
+    [self GemContinuous:posAsNSValue gemType:bs.gemType refArray:gems];
+    
+    if ([gems count] >= 3 ) {
+      return NO; // 풀게 있음
+    } else {
+      // checked 에 집어 넣고 for문 계속
+      for (NSValue *v in gems) {
+        [checkedGem addObject:v];
+      }
+      continue;
+    }
+  }
+  return YES;
 }
 
 -(void) __fillBlank:(NSMutableDictionary *)blankColumns {
@@ -282,6 +329,9 @@
   }
   //CCLOG(@"action count:%d", [actions count]);
   [actions addObject:[CCCallBlock actionWithBlock:^{ _thisStatus = _lastStatus; }]];
+  
+  // 채우기 끝내면 각종 판정 들
+  [actions addObject:[CCCallBlock actionWithBlock:^{ [self __afterAnimations]; }]];
   
   //
   CCFiniteTimeAction *seq = nil;

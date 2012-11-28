@@ -14,11 +14,13 @@
 typedef enum {
   ggStatusINIT,
   ggStatusReadyToTouch,
-  ggStatusInAnimation
+  ggStatusInAnimation,
+  ggStatusStopTheGame
 } ggStatus;
 
 // Notification Events 
 #define GG_NOTIFICATION_SCORE_UPDATE @"ggEVENT_ScoreUpdate"
+#define GG_NOTIFICATION_GAME_OVER    @"ggEVENT_GameOver"
 
 struct ggBoardStruct
 {
@@ -83,7 +85,8 @@ typedef struct ggConfigStruct ggConfigStruct;
 //내부 메소드 for game playing
 -(int) __findBottom:(int)columnNumber;
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom;
-
+-(BOOL) __isGameOVer;
+-(void) __afterAnimations; 
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
 
 //GameType1 :
