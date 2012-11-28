@@ -3,7 +3,7 @@ GemGemGameFramework
 
 + iOS Framework for Gem Style Game
 + using cocos2d
-+ playing demo : http://youtu.be/P_V5KpF64z0
++ playing demo : http://youtu.be/Fz5GiUvValE
 
 Bug tracker
 -----------
