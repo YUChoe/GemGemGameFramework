@@ -43,7 +43,8 @@ _sprite = [CCSprite spriteWithFile:@"3.png"];
   } else if (testValue == 4) {
 _sprite = [CCSprite spriteWithFile:@"4.png"];
   }
-  [self resizeSprite:_sprite toWidth:32 toHeight:32];
+  //[self resizeSprite:_sprite toWidth:32 toHeight:32];
+  [self resizeSprite:_sprite toWidth:40 toHeight:40];
   //[_obj addObject:_sprite];
 } // end of test
 

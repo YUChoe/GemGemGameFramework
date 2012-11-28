@@ -59,9 +59,9 @@
   
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
-  [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:32]];
-  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
-
+  [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:40]];
+  //[self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
+  [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(20, 100)] ];
 }
 
 -(void) setConfig:(NSString *)keyString value:(id)valueObject {
