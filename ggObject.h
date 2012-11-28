@@ -17,6 +17,8 @@ typedef enum {
   ggStatusInAnimation
 } ggStatus;
 
+// Notification Events 
+#define GG_NOTIFICATION_SCORE_UPDATE @"ggEVENT_ScoreUpdate"
 
 struct ggBoardStruct
 {
@@ -26,6 +28,22 @@ struct ggBoardStruct
   CGPoint position;
 };
 typedef struct ggBoardStruct ggBoardStruct;
+
+struct ggConfigStruct {
+  // Game
+  int        GameType;
+  
+  // Gem
+  int        GemTypeCount;
+  int        GemSizeBYPixel;
+  
+  // Board
+  int        BoardWidth;
+  int        BoardHeight;
+  CGPoint    BoardAnchorPosition;
+  
+};
+typedef struct ggConfigStruct ggConfigStruct;
 
 @interface ggObject : NSObject
 {
