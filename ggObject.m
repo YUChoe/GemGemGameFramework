@@ -49,7 +49,7 @@
   CCLOG(@"Loading DefaultConfiguration *** ");
   [self setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:1]];
   
-  [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:6]];
+  [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:4]];
   /*
   // TODO: Gem Class 재정의 할 수 있도록 할 것 
   [self setConfig:@"GemType_01" value:[[ggGem alloc] initAsTest:1]];
@@ -59,7 +59,7 @@
   */
   
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
-  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:5]];
+  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:3]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:40]];
   //[self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
   [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(20, 100)] ];
@@ -113,7 +113,7 @@
       bs.isEmpty = YES;
       bs.Gem = nil;
       bs.gemType = 0;
-      bs.position = ccpAdd([(NSValue*)[self getConfig:@"GemBoard_anchor_pos"] CGPointValue], ccp((w-1)*ggConfig.GemSizeBYPixel, (h-1)*ggConfig.GemSizeBYPixel));
+      bs.position = ccpAdd(ggConfig.BoardAnchorPosition, ccp((w-1)*ggConfig.GemSizeBYPixel, (h-1)*ggConfig.GemSizeBYPixel));
       // TODO: 만약 여기 CGRect 가 있어서 touch 와 비교 한다면?
       
       [_board setObject:[NSValue value:&bs withObjCType:@encode(ggBoardStruct)] forKey:_posNSValue];
@@ -381,7 +381,7 @@
   CCSprite *gemSprite = [g getCCSprite];
   gemSprite.position = ccpAdd(ggConfig.BoardAnchorPosition,
                               ccp((columnNumber - 1)*ggConfig.GemSizeBYPixel, (ggConfig.BoardHeight+2)*ggConfig.GemSizeBYPixel)); // starting point
-  [_thisCCLayer addChild:gemSprite];
+  [_thisCCLayer addChild:gemSprite z:10];
   
   float dropSpeed = 0.1f * (ggConfig.BoardHeight + 2 - bottom);
   CGPoint targetPosition = ccpAdd(ggConfig.BoardAnchorPosition, ccp((columnNumber - 1)*ggConfig.GemSizeBYPixel, (bottom)*ggConfig.GemSizeBYPixel));
