@@ -23,7 +23,7 @@
     CCLOG(@"_ggConfig count(after):%d", [_ggConfig count]);
     */
     
-    [self loadDefaultConfiguration];
+    //[self loadDefaultConfiguration];
     _thisStatus = ggStatusINIT;
   } else {
     CCLOG(@"init failed : crash");
@@ -46,9 +46,10 @@
 }
 
 -(void)loadDefaultConfiguration {
+  CCLOG(@"Loading DefaultConfiguration *** ");
   [self setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:1]];
   
-  [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:4]];
+  [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:6]];
   /*
   // TODO: Gem Class 재정의 할 수 있도록 할 것 
   [self setConfig:@"GemType_01" value:[[ggGem alloc] initAsTest:1]];
