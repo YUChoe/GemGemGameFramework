@@ -34,6 +34,10 @@ typedef struct ggBoardStruct ggBoardStruct;
 struct ggConfigStruct {
   // Game
   int        GameType;
+  int        GameMadeGems;
+  int        GameMadeBonusGems;
+  int        GameScodeAdd;
+  int        GameScodeBonus;
   
   // Gem
   int        GemTypeCount;

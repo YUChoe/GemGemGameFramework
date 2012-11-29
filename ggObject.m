@@ -16,12 +16,6 @@
   if ( self = [super init] ) {
     _ggConfig = [[NSMutableDictionary alloc] init];
     _thisCCLayer = _layer;
-
-    /*
-    CCLOG(@"_ggConfig count(before):%d", [_ggConfig count]);
-    [_ggConfig setObject:[NSNumber numberWithFloat:0.9f] forKey:@"GemGemVersion"];
-    CCLOG(@"_ggConfig count(after):%d", [_ggConfig count]);
-    */
     
     //[self loadDefaultConfiguration];
     _thisStatus = ggStatusINIT;
@@ -47,8 +41,14 @@
 
 -(void)loadDefaultConfiguration {
   CCLOG(@"Loading DefaultConfiguration *** ");
+  // game
   [self setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:1]];
+  [self setConfig:@"GemGame_MadeGems" value:[NSNumber numberWithInt:4]];
+  [self setConfig:@"GemGame_MadeGems_Bonus" value:[NSNumber numberWithInt:8]];
+  [self setConfig:@"GemGame_Score_Add" value:[NSNumber numberWithInt:10]];
+  [self setConfig:@"GemGame_ScoreBonus_Add" value:[NSNumber numberWithInt:20]];
   
+  // gem
   [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:4]];
   /*
   // TODO: Gem Class 재정의 할 수 있도록 할 것 
@@ -180,6 +180,10 @@
   ggConfig.BoardHeight         = [[_ggConfig objectForKey:@"GemBoard_height"]    intValue];
   ggConfig.BoardWidth          = [[_ggConfig objectForKey:@"GemBoard_width"]     intValue];
   ggConfig.BoardAnchorPosition = [[_ggConfig objectForKey:@"GemBoard_anchor_pos"] CGPointValue];
+  ggConfig.GameMadeGems        = [[_ggConfig objectForKey:@"GemGame_MadeGems"] intValue];
+  ggConfig.GameMadeBonusGems   = [[_ggConfig objectForKey:@"GemGame_MadeGems_Bonus"] intValue];
+  ggConfig.GameScodeAdd        = [[_ggConfig objectForKey:@"GemGame_Score_Add"] intValue];
+  ggConfig.GameScodeBonus      = [[_ggConfig objectForKey:@"GemGame_ScoreBonus_Add"] intValue];
 
   //step 2 : board 그리기
   [self __drawBoard];
@@ -242,13 +246,16 @@
   [self GemContinuous:posInBoard gemType:thisType refArray:gems];
   
   // 결과물인 gems 의 카운트가 3개 이상?
-  if ([gems count] >= 3) {
+  if ([gems count] >= ggConfig.GameMadeGems) {
     [self gemBurst:gems];
     // TODO: 빈칸채우기
     NSMutableDictionary *blankColumns = [self __gravityJob:gems];
-    // TEST: Score Update
-    [self setScore: _gameScore + ([gems count] * 10)];
-    
+    // Score Update
+    if ([gems count] >= ggConfig.GameMadeBonusGems) { // Bonus !!
+      [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeBonus)];
+    } else {
+      [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeAdd)];
+    }
     // 다시 gem drop
     [self __fillBlank:blankColumns];
   
@@ -292,7 +299,7 @@
     
     [self GemContinuous:posAsNSValue gemType:bs.gemType refArray:gems];
     
-    if ([gems count] >= 3 ) {
+    if ([gems count] >= ggConfig.GameMadeGems ) {
       return NO; // 풀게 있음
     } else {
       // checked 에 집어 넣고 for문 계속
