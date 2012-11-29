@@ -59,7 +59,7 @@
   */
   
   [self setConfig:@"GemBoard_width" value:[NSNumber numberWithInt:8]];
-  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:3]];
+  [self setConfig:@"GemBoard_height" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemBoard_unitPixel" value:[NSNumber numberWithInt:40]];
   //[self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(48, 180)] ];
   [self setConfig:@"GemBoard_anchor_pos" value:[NSValue valueWithCGPoint:ccp(20, 100)] ];
@@ -350,7 +350,7 @@
 }
 
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom {
-  if (bottom == ggConfig.BoardHeight) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
+  //if (bottom == ggConfig.BoardHeight) ) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
 
   //step1: gem 생성
   int gemType = rand() % 4 + 1; // 1,2,3,4
