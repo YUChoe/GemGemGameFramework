@@ -81,23 +81,11 @@
   [self addChild: label z:99];
   
   //
-  // Leaderboards and Achievements
+  // Game Over
   //
   
   [CCMenuItemFont setFontSize:20];
   CCMenu *menu;
-  
-  // Achievement Menu Item using blocks
-  /*
-  CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-    GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-    achivementViewController.achievementDelegate = self;
-    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-    [[app navController] presentModalViewController:achivementViewController animated:YES];
-    [achivementViewController release];
-  }
-                                 ];
-  */
   
   CCMenuItem *itemReplay = [CCMenuItemFont itemWithString:@"Replay" block:^(id sender){
     //[[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInR transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];

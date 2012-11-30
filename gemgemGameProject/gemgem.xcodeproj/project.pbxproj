@@ -19,6 +19,8 @@
 		EE05A022166854E500F280D4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EE059F9D166854E500F280D4 /* README.md */; };
 		EE05A02E166880D600F280D4 /* mainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A02D166880D600F280D4 /* mainMenuLayer.m */; };
 		EE05A030166893C400F280D4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A02F166893C400F280D4 /* logo.png */; };
+		EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03216689B7200F280D4 /* optionsLayer.m */; };
+		EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03516689FA300F280D4 /* creditsLayer.m */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -164,6 +166,10 @@
 		EE05A02C166880D600F280D4 /* mainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenuLayer.h; sourceTree = "<group>"; };
 		EE05A02D166880D600F280D4 /* mainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenuLayer.m; sourceTree = "<group>"; };
 		EE05A02F166893C400F280D4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		EE05A03116689B7200F280D4 /* optionsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = optionsLayer.h; sourceTree = "<group>"; };
+		EE05A03216689B7200F280D4 /* optionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = optionsLayer.m; sourceTree = "<group>"; };
+		EE05A03416689FA300F280D4 /* creditsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = creditsLayer.h; sourceTree = "<group>"; };
+		EE05A03516689FA300F280D4 /* creditsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = creditsLayer.m; sourceTree = "<group>"; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -491,12 +497,16 @@
 		EE05A02B1668803E00F280D4 /* userScenes */ = {
 			isa = PBXGroup;
 			children = (
-				EE6A16871660756100DDCE93 /* HelloWorldLayer.h */,
-				EE6A16881660756100DDCE93 /* HelloWorldLayer.m */,
 				EE6A168A1660756100DDCE93 /* IntroLayer.h */,
 				EE6A168B1660756200DDCE93 /* IntroLayer.m */,
+				EE6A16871660756100DDCE93 /* HelloWorldLayer.h */,
+				EE6A16881660756100DDCE93 /* HelloWorldLayer.m */,
 				EE05A02C166880D600F280D4 /* mainMenuLayer.h */,
 				EE05A02D166880D600F280D4 /* mainMenuLayer.m */,
+				EE05A03416689FA300F280D4 /* creditsLayer.h */,
+				EE05A03516689FA300F280D4 /* creditsLayer.m */,
+				EE05A03116689B7200F280D4 /* optionsLayer.h */,
+				EE05A03216689B7200F280D4 /* optionsLayer.m */,
 			);
 			name = userScenes;
 			sourceTree = "<group>";
@@ -1098,6 +1108,8 @@
 				EE05A01F166854E500F280D4 /* ggGem.m in Sources */,
 				EE05A020166854E500F280D4 /* ggObject.m in Sources */,
 				EE05A02E166880D600F280D4 /* mainMenuLayer.m in Sources */,
+				EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */,
+				EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

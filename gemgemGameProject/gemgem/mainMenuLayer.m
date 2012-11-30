@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 
 #import "HelloWorldLayer.h"
+#import "optionsLayer.h"
+#import "creditsLayer.h"
 
 @implementation mainMenuLayer
 
@@ -71,13 +73,13 @@
     CCMenuItem *itemCredits = [CCMenuItemFont itemWithString:@"Credits" block:^(id sender){
       [[CCDirector sharedDirector] replaceScene:
        [CCTransitionFade transitionWithDuration:1.0
-                                          scene:[HelloWorldLayer scene] withColor:ccWHITE]
+                                          scene:[creditsLayer scene] withColor:ccWHITE]
        ];
     }
                                 ];
 
     CCMenuItem *itemOptions = [CCMenuItemFont itemWithString:@"Options" block:^(id sender){
-      [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccWHITE]];
+      [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[optionsLayer scene] withColor:ccWHITE]];
     }
                                 ];
 
