@@ -17,6 +17,8 @@
 		EE05A020166854E500F280D4 /* ggObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EE059F9A166854E500F280D4 /* ggObject.m */; };
 		EE05A021166854E500F280D4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = EE059F9C166854E500F280D4 /* LICENSE */; };
 		EE05A022166854E500F280D4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EE059F9D166854E500F280D4 /* README.md */; };
+		EE05A02E166880D600F280D4 /* mainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A02D166880D600F280D4 /* mainMenuLayer.m */; };
+		EE05A030166893C400F280D4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A02F166893C400F280D4 /* logo.png */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -142,7 +144,6 @@
 		EED06940166603D000E12246 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = EED0693F166603D000E12246 /* Default.png */; };
 		EED06943166605A200E12246 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EED06942166605A200E12246 /* Icon.png */; };
 		EED06945166605D700E12246 /* Iconx2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED06944166605D700E12246 /* Iconx2.png */; };
-		EED0694A1667391000E12246 /* gameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED069491667391000E12246 /* gameOverLayer.m */; };
 		EED0694C16673DCE00E12246 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = EED0694B16673DCE00E12246 /* shadow.png */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +161,9 @@
 		EE059F9A166854E500F280D4 /* ggObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ggObject.m; sourceTree = "<group>"; };
 		EE059F9C166854E500F280D4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		EE059F9D166854E500F280D4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		EE05A02C166880D600F280D4 /* mainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenuLayer.h; sourceTree = "<group>"; };
+		EE05A02D166880D600F280D4 /* mainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenuLayer.m; sourceTree = "<group>"; };
+		EE05A02F166893C400F280D4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -421,8 +425,6 @@
 		EED0693F166603D000E12246 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		EED06942166605A200E12246 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		EED06944166605D700E12246 /* Iconx2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Iconx2.png; path = ../Iconx2.png; sourceTree = "<group>"; };
-		EED069481667391000E12246 /* gameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameOverLayer.h; sourceTree = "<group>"; };
-		EED069491667391000E12246 /* gameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gameOverLayer.m; sourceTree = "<group>"; };
 		EED0694B16673DCE00E12246 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -449,6 +451,7 @@
 		EE059E7B1668531000F280D4 /* userResources */ = {
 			isa = PBXGroup;
 			children = (
+				EE05A02F166893C400F280D4 /* logo.png */,
 				EED06944166605D700E12246 /* Iconx2.png */,
 				EED06942166605A200E12246 /* Icon.png */,
 				EED0693F166603D000E12246 /* Default.png */,
@@ -483,6 +486,19 @@
 				EE059E84166854E500F280D4 /* pong.png */,
 			);
 			path = defaultImages;
+			sourceTree = "<group>";
+		};
+		EE05A02B1668803E00F280D4 /* userScenes */ = {
+			isa = PBXGroup;
+			children = (
+				EE6A16871660756100DDCE93 /* HelloWorldLayer.h */,
+				EE6A16881660756100DDCE93 /* HelloWorldLayer.m */,
+				EE6A168A1660756100DDCE93 /* IntroLayer.h */,
+				EE6A168B1660756200DDCE93 /* IntroLayer.m */,
+				EE05A02C166880D600F280D4 /* mainMenuLayer.h */,
+				EE05A02D166880D600F280D4 /* mainMenuLayer.m */,
+			);
+			name = userScenes;
 			sourceTree = "<group>";
 		};
 		EE6A14EB1660755F00DDCE93 = {
@@ -521,16 +537,11 @@
 		EE6A150C1660755F00DDCE93 /* gemgem */ = {
 			isa = PBXGroup;
 			children = (
-				EE059E7B1668531000F280D4 /* userResources */,
+				EE05A02B1668803E00F280D4 /* userScenes */,
 				EE6A16841660756100DDCE93 /* AppDelegate.h */,
 				EE6A16851660756100DDCE93 /* AppDelegate.m */,
-				EE6A16871660756100DDCE93 /* HelloWorldLayer.h */,
-				EE6A16881660756100DDCE93 /* HelloWorldLayer.m */,
-				EED069481667391000E12246 /* gameOverLayer.h */,
-				EED069491667391000E12246 /* gameOverLayer.m */,
 				EE059E7D166854E500F280D4 /* GemGemGameFramework */,
-				EE6A168A1660756100DDCE93 /* IntroLayer.h */,
-				EE6A168B1660756200DDCE93 /* IntroLayer.m */,
+				EE059E7B1668531000F280D4 /* userResources */,
 				EE6A150D1660755F00DDCE93 /* Resources */,
 				EE6A15271660755F00DDCE93 /* libs */,
 				EE6A16801660756100DDCE93 /* Supporting Files */,
@@ -969,6 +980,7 @@
 				EE059FA3166854E500F280D4 /* pong.png in Resources */,
 				EE05A021166854E500F280D4 /* LICENSE in Resources */,
 				EE05A022166854E500F280D4 /* README.md in Resources */,
+				EE05A030166893C400F280D4 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,9 +1095,9 @@
 				EE6A16861660756100DDCE93 /* AppDelegate.m in Sources */,
 				EE6A16891660756100DDCE93 /* HelloWorldLayer.m in Sources */,
 				EE6A168C1660756200DDCE93 /* IntroLayer.m in Sources */,
-				EED0694A1667391000E12246 /* gameOverLayer.m in Sources */,
 				EE05A01F166854E500F280D4 /* ggGem.m in Sources */,
 				EE05A020166854E500F280D4 /* ggObject.m in Sources */,
+				EE05A02E166880D600F280D4 /* mainMenuLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
