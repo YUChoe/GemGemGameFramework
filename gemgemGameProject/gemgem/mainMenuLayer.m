@@ -32,9 +32,10 @@
 
     // LOGO
     CCSprite *logo = [CCSprite spriteWithFile:@"logo.png"];
-    logo.scaleX = 0.5f;
-    logo.scaleY = 0.5f;
-    logo.position = ccp(size.width/2, size.height - ([logo boundingBox].size.height /2));
+    float rate = size.width / logo.contentSize.width;
+    logo.scaleX = rate;
+    logo.scaleY = rate;
+    logo.position = ccp(size.width/2, size.height - ([logo boundingBox].size.height /2) - 25);
     [self addChild:logo];
     
     //MENU
@@ -89,7 +90,7 @@
     //[menu alignItemsHorizontallyWithPadding:20];
     [menu alignItemsVerticallyWithPadding:10];
     
-    [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
+    [menu setPosition:ccp( size.width/2, size.height/2 - 100)];
     
     // Add the menu to the layer
     [self addChild:menu z:99];
