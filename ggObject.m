@@ -48,6 +48,7 @@
   [self setConfig:@"GemGame_Score_Add" value:[NSNumber numberWithInt:10]];
   [self setConfig:@"GemGame_ScoreBonus_Add" value:[NSNumber numberWithInt:20]];
   
+  
   // gem
   [self setConfig:@"GemTypeCount" value:[NSNumber numberWithInt:4]];
   /*
@@ -401,11 +402,8 @@
   return ani;
   
 }
-
-// gravity job
--(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
+-(NSMutableDictionary *) __GemsArray2Dictionary:(NSMutableArray *) gems {
   NSMutableDictionary *colDic = [[NSMutableDictionary alloc] init]; // key: 칼럼#, value: pos배열
-  //CCLOG(@"gems count:%d", [gems count]);
   
   for (NSValue *gemPos in gems) {
     CGPoint p = [gemPos CGPointValue];
@@ -421,6 +419,17 @@
       [colDic setObject:points forKey:xx];
     }
   }
+  return colDic;
+}
+
+// gravity job
+-(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
+  NSMutableDictionary *colDic = [self __GemsArray2Dictionary:gems];
+  
+  // infinity game mode !
+  
+  //
+  
   //CCLOG(@"columns count:%d", [colDic count]);
   for (NSNumber *c in colDic) {
     //NSMutableArray *points = [colDic objectForKey:c];
