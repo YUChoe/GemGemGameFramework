@@ -99,7 +99,7 @@ typedef struct ggConfigStruct ggConfigStruct;
 //unit convert
 -(CGPoint) __TopReadyPosition_NSValue2CGPoint:(NSValue *)value;
 -(CGPoint) __Position_NSValue2CGPoint:(NSValue *)value;
-
+-(NSMutableDictionary *) __GemsArray2Dictionary:(NSMutableArray *) gems;
 
 //GameType1 :
 -(void) goGemBurst:(NSValue *)posInBoard;

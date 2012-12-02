@@ -43,7 +43,7 @@
   CCLOG(@"Loading DefaultConfiguration *** ");
   // game
   [self setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:1]];
-  [self setConfig:@"GemGame_MadeGems" value:[NSNumber numberWithInt:4]];
+  [self setConfig:@"GemGame_MadeGems" value:[NSNumber numberWithInt:3]];
   [self setConfig:@"GemGame_MadeGems_Bonus" value:[NSNumber numberWithInt:8]];
   [self setConfig:@"GemGame_Score_Add" value:[NSNumber numberWithInt:10]];
   [self setConfig:@"GemGame_ScoreBonus_Add" value:[NSNumber numberWithInt:20]];
@@ -258,7 +258,7 @@
       [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeAdd)];
     }
     // 다시 gem drop
-    [self __fillBlank2:gems]; // TEST 
+    //[self __fillBlank2:gems]; // TEST
     [self __fillBlank:blankColumns];
   
   } else {
@@ -314,33 +314,6 @@
   return NO;
 }
 
-
--(void) __fillBlank2:(NSMutableArray *)gems {
-  // _board 를 _tempBoard 로 copy
-  NSMutableDictionary *_tempBoard = [[NSMutableDictionary alloc] initWithDictionary:_board];
-  NSMutableDictionary *_decision = [[NSMutableDictionary alloc] init];
-  
-  int debugCount = 0;
-  do {                                          // 여기서 부터 ................
-    CCLOG(@"isPossible trying count:%d", ++debugCount);
-    // gems 참조해서 random 으로 각 빈칸을 채움
-    [_decision removeAllObjects];
-    for (NSValue *blnkPos in gems) {
-      
-    }
-    
-  } while ([self __isPossible:_tempBoard]);     // made 가 가능 할 때 까지 재시도
-  CCLOG(@"decision count:%d", [_decision count]);
-  
-  // ready animation
-  for (NSValue *decisionPos in _decision) {
-    //CGPoint _topReadyPosition = ccp
-  }
-  // do animation
-  // finish animation
-  
-}
-
 -(void) __fillBlank:(NSMutableDictionary *)blankColumns {
   ggStatus _lastStatus = _thisStatus;
   _thisStatus = ggStatusInAnimation;
@@ -385,21 +358,35 @@
   [_thisCCLayer runAction:seq];  
 }
 
--(CGPoint) __TopReadyPosition_NSValue2CGPoint:(NSValue *)value {
-  int columnNum = [value CGPointValue].x;
-  return ccpAdd( ggConfig.BoardAnchorPosition, ccp((columnNum - 1) * ggConfig.GemSizeBYPixel, (ggConfig.BoardHeight + 2) * ggConfig.GemSizeBYPixel));
-}
-
--(CGPoint) __Position_NSValue2CGPoint:(NSValue *)value {
-  CGPoint xy = [value CGPointValue];
-  return ccpAdd( ggConfig.BoardAnchorPosition,
-                ccp( (xy.x -1) * ggConfig.GemSizeBYPixel, (xy.y-1) * ggConfig.GemSizeBYPixel ));
+-(void) __fillBlank2:(NSMutableArray *)gems {
+  // _board 를 _tempBoard 로 copy
+  NSMutableDictionary *_tempBoard = [[NSMutableDictionary alloc] initWithDictionary:_board];
+  NSMutableDictionary *_decision = [[NSMutableDictionary alloc] init];
+  
+  int debugCount = 0;
+  do {                                          // 여기서 부터 ................
+    CCLOG(@"isPossible trying count:%d", ++debugCount);
+    // gems 참조해서 random 으로 각 빈칸을 채움
+    [_decision removeAllObjects];
+    for (NSValue *blnkPos in gems) {
+      
+    }
+    
+  } while ([self __isPossible:_tempBoard]);     // made 가 가능 할 때 까지 재시도
+  CCLOG(@"decision count:%d", [_decision count]);
+  
+  // ready animation
+  for (NSValue *decisionPos in _decision) {
+    //CGPoint _topReadyPosition = ccp
+  }
+  // do animation
+  // finish animation
+  
 }
 
 -(void) __registAGemTypeof:(int)gemType AtPositionAsNSValue:(NSValue *)posAsVal onBoard:(NSMutableDictionary *)targetBoard {
   ggGem *g = [[ggGem alloc] initAsTest:gemType size:ggConfig.GemSizeBYPixel];
   
-  //step2: 해당 _board 객체에 Gem 등록
   NSValue *valueFrom_board = [targetBoard objectForKey:posAsVal];
   ggBoardStruct bs;
   [valueFrom_board getValue:&bs];
@@ -419,27 +406,14 @@
 
   //step1: gem 생성
   int gemType = rand() % 4 + 1; // 1,2,3,4
-                                //CCLOG(@"random GemType:%d", gemType);
-  ggGem *g = [[ggGem alloc] initAsTest:gemType size:ggConfig.GemSizeBYPixel];
+    // ************
   
-  //step2: 해당 _board 객체에 Gem 등록
   NSValue *pos = [NSValue valueWithCGPoint:(CGPointMake(columnNumber, bottom))];
-  NSValue *valueFrom_board = [_board objectForKey:pos];
+  
+  [self __registAGemTypeof:gemType AtPositionAsNSValue:pos onBoard:_board];
   ggBoardStruct bs;
-  [valueFrom_board getValue:&bs];
-  bs.Gem = g; // 등록(교체)
-  bs.gemType = gemType;
-  
-  //TEST:
-  //if (bs.isEmpty == NO) CCLOG(@"어 여기 뭔가 이상!");
-  bs.isEmpty = NO;
-  bs.position = ccpAdd(ggConfig.BoardAnchorPosition, ccp((columnNumber - 1) * ggConfig.GemSizeBYPixel, (bottom)*ggConfig.GemSizeBYPixel));
-  
-  NSValue *obj = [NSValue value:&bs withObjCType:@encode(ggBoardStruct)]; // encode as NSValue
-                                                                          //CCLOG(@"replace before count:%d", [_board count]);
-                                                                          //CCLOG(@"Set/Update Gem on (NSMutableDictionary*)_board at pos(%d,%d)", w, bottom);
-  [_board setObject:obj forKey:pos];
-  //CCLOG(@"replace after count:%d", [_board count]);
+  [[_board objectForKey:pos] getValue:&bs];
+  ggGem *g = bs.Gem;
   
   //step3: 애니메이션
   // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
@@ -459,6 +433,7 @@
   return ani;
   
 }
+
 -(NSMutableDictionary *) __GemsArray2Dictionary:(NSMutableArray *) gems {
   NSMutableDictionary *colDic = [[NSMutableDictionary alloc] init]; // key: 칼럼#, value: pos배열
   
@@ -479,7 +454,20 @@
   return colDic;
 }
 
+-(CGPoint) __TopReadyPosition_NSValue2CGPoint:(NSValue *)value {
+  int columnNum = [value CGPointValue].x;
+  return ccpAdd( ggConfig.BoardAnchorPosition, ccp((columnNum - 1) * ggConfig.GemSizeBYPixel, (ggConfig.BoardHeight + 2) * ggConfig.GemSizeBYPixel));
+}
+
+-(CGPoint) __Position_NSValue2CGPoint:(NSValue *)value {
+  CGPoint xy = [value CGPointValue];
+  return ccpAdd( ggConfig.BoardAnchorPosition,
+                ccp( (xy.x -1) * ggConfig.GemSizeBYPixel, (xy.y) * ggConfig.GemSizeBYPixel ));
+}
+
 // gravity job
+
+
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
   NSMutableDictionary *colDic = [self __GemsArray2Dictionary:gems];
   
