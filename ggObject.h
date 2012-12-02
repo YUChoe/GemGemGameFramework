@@ -94,7 +94,7 @@ typedef struct ggConfigStruct ggConfigStruct;
 -(BOOL) __isPossible:(NSMutableDictionary *)_tempBoard;
 -(void) __afterAnimations; 
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
--(void) __registAGemTypeof:(int)gemType AtPositionAsNSValue:(NSValue *)posAsVal onBoard:(NSMutableDictionary *)targetBoard;
+-(ggGem *) __registAGemTypeof:(int)gemType AtPositionAsNSValue:(NSValue *)posAsVal onBoard:(NSMutableDictionary *)targetBoard;
 
 //unit convert
 -(CGPoint) __TopReadyPosition_NSValue2CGPoint:(NSValue *)value;
@@ -103,7 +103,8 @@ typedef struct ggConfigStruct ggConfigStruct;
 
 //GameType1 :
 -(void) goGemBurst:(NSValue *)posInBoard;
--(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems;
+-(void) GemContinuous:(NSValue *)posAsNSValue gemType:(int)thisType refArray:(NSMutableArray* )gems fromBoard:(NSMutableDictionary *)tempBoard;
+-(BOOL) isSameGem:(int)thisType withPos:(NSValue *)posAsNSValue fromBoard:(NSMutableDictionary *)tempBoard;
 
 //GameType2 :
 //replace between posA and posB
