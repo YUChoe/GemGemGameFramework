@@ -270,7 +270,7 @@
   // 연쇄 판정
 
   // 게임오버 판정
-  if ([self __isGameOver] == YES) {
+  if ([self __isPossible:_board] == NO) {
     _thisStatus = ggStatusStopTheGame;
     CCLOG(@"game over");
     //NSDictionary * userInfoDic = [NSDictionary dictionaryWithObject:@"" forKey:@""];
@@ -280,11 +280,11 @@
   }
 }
 
--(BOOL) __isGameOver {
+-(BOOL) __isPossible:(NSMutableDictionary *)_tempBoard {
   NSMutableArray *gems = [[NSMutableArray alloc] init]; // 연속 확인 할 결과물
   NSMutableArray *checkedGem = [[NSMutableArray alloc] init]; // 확인 했는지 체크 gems 가 돌아오면 여기에 더한다
   
-  for (NSValue *posAsNSValue in _board) {
+  for (NSValue *posAsNSValue in _tempBoard) {
     //CCLOG(@"checkLoop:_board(%.f,%.f)", [posAsNSValue CGPointValue].x, [posAsNSValue CGPointValue].y);
     NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
     ggBoardStruct bs;
@@ -301,7 +301,7 @@
     [self GemContinuous:posAsNSValue gemType:bs.gemType refArray:gems];
     
     if ([gems count] >= ggConfig.GameMadeGems ) {
-      return NO; // 풀게 있음
+      return YES; // 풀게 있음
     } else {
       // checked 에 집어 넣고 for문 계속
       for (NSValue *v in gems) {
@@ -310,8 +310,38 @@
       continue;
     }
   }
-  return YES;
+  return NO;
 }
+
+/*
+ 
+ // _board 를 _tempBoard 로 copy
+ NSMutableDictionary *_tempBoard = [[NSMutableDictionary alloc] initWithDictionary:_board];
+ NSMutableDictionary *_decision = [[NSMutableDictionary alloc] init];
+ 
+ int debugCount = 0;
+ do {
+ CCLOG(@"isPossible trying count:%d", ++debugCount);
+ // gems 참조해서 random 으로 각 빈칸을 채움
+ [_decision removeAllObjects];
+ for (NSValue *blnkPos in gems) {
+ 
+ }
+ 
+ } while ([self isPossible:_tempBoard]);     // made 가 가능 할 때 까지 재시도
+ 
+ // ready animation
+ for (NSValue *decisionPos in _decision) {
+ CGPoint _topReadyPosition = ccp
+ }
+ // do animation
+ // finish animation
+ 
+ return colDic;
+ 
+ // *********************************************************************
+ 
+ */
 
 -(void) __fillBlank:(NSMutableDictionary *)blankColumns {
   ggStatus _lastStatus = _thisStatus;
@@ -426,13 +456,8 @@
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems {
   NSMutableDictionary *colDic = [self __GemsArray2Dictionary:gems];
   
-  // infinity game mode !
-  
-  //
-  
   //CCLOG(@"columns count:%d", [colDic count]);
   for (NSNumber *c in colDic) {
-    //NSMutableArray *points = [colDic objectForKey:c];
     //CCLOG(@"채우기:col[%d]:%d개", [c intValue], [points count]);
 
     for (int h = 1; h <= ggConfig.BoardHeight; h++) {
