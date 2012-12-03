@@ -24,16 +24,20 @@ typedef enum {
   CCSprite *bar2;
   CCSprite *bar3;
   CGPoint timerPosition;
+  int barWidth;
   
   NSTimer *Timer;
   float timer_interval;
   
+  int startValue;
   int currentValue;
   int warningPoint;
   int dangerPoint;
+  
+  CCLayer *thisLayer;
 }
 
--(id)initWithCCLayer:(CCLayer *)cclayer;
+-(id) initWithCCLayer:(CCLayer *)cclayer at:(CGPoint)position startSize:(int)timerBarWidth;
 
 -(void) setState:(ggTimerStatus)newStatus;
 -(ggTimerStatus) getState;
