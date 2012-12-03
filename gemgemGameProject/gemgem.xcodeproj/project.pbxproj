@@ -21,6 +21,7 @@
 		EE05A030166893C400F280D4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A02F166893C400F280D4 /* logo.png */; };
 		EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03216689B7200F280D4 /* optionsLayer.m */; };
 		EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03516689FA300F280D4 /* creditsLayer.m */; };
+		EE05A03C166C6BA700F280D4 /* LICENSE_GPL2_gemgem in Resources */ = {isa = PBXBuildFile; fileRef = EE05A03B166C6BA700F280D4 /* LICENSE_GPL2_gemgem */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -170,6 +171,7 @@
 		EE05A03216689B7200F280D4 /* optionsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = optionsLayer.m; sourceTree = "<group>"; };
 		EE05A03416689FA300F280D4 /* creditsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = creditsLayer.h; sourceTree = "<group>"; };
 		EE05A03516689FA300F280D4 /* creditsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = creditsLayer.m; sourceTree = "<group>"; };
+		EE05A03B166C6BA700F280D4 /* LICENSE_GPL2_gemgem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_GPL2_gemgem; sourceTree = "<group>"; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -555,6 +557,7 @@
 				EE6A150D1660755F00DDCE93 /* Resources */,
 				EE6A15271660755F00DDCE93 /* libs */,
 				EE6A16801660756100DDCE93 /* Supporting Files */,
+				EE05A03B166C6BA700F280D4 /* LICENSE_GPL2_gemgem */,
 			);
 			path = gemgem;
 			sourceTree = "<group>";
@@ -991,6 +994,7 @@
 				EE05A021166854E500F280D4 /* LICENSE in Resources */,
 				EE05A022166854E500F280D4 /* README.md in Resources */,
 				EE05A030166893C400F280D4 /* logo.png in Resources */,
+				EE05A03C166C6BA700F280D4 /* LICENSE_GPL2_gemgem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
