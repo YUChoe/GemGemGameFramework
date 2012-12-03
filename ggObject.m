@@ -197,7 +197,9 @@
   CCLOG(@"*** Game Board init complete ***");
   
   //step 4 : timer 초기화
-  _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer at:(ccpAdd(ggConfig.BoardAnchorPosition, ccp(-15,+10))) startSize:([[CCDirector sharedDirector] winSize].width)];
+  _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer
+                                             at:(ccpAdd(ggConfig.BoardAnchorPosition, ccp(-16,+15))) // TODO 변수 사용 
+                                      startSize:([[CCDirector sharedDirector] winSize].width)-4];
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
