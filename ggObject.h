@@ -90,7 +90,7 @@ typedef struct ggConfigStruct ggConfigStruct;
 //내부 메소드 for game playing
 -(int) __findBottom:(int)columnNumber;
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom;
-//-(BOOL) __isGameOver;
+-(void) __fillBlank:(NSMutableDictionary *)blankColumns;
 -(BOOL) __isPossible:(NSMutableDictionary *)_tempBoard;
 -(void) __afterAnimations; 
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
