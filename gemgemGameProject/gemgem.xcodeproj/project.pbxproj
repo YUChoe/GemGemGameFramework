@@ -22,6 +22,7 @@
 		EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03216689B7200F280D4 /* optionsLayer.m */; };
 		EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03516689FA300F280D4 /* creditsLayer.m */; };
 		EE05A03C166C6BA700F280D4 /* LICENSE_GPL2_gemgem in Resources */ = {isa = PBXBuildFile; fileRef = EE05A03B166C6BA700F280D4 /* LICENSE_GPL2_gemgem */; };
+		EE05A040166C77E500F280D4 /* ggTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE05A03F166C77E500F280D4 /* ggTimer.m */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -172,6 +173,8 @@
 		EE05A03416689FA300F280D4 /* creditsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = creditsLayer.h; sourceTree = "<group>"; };
 		EE05A03516689FA300F280D4 /* creditsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = creditsLayer.m; sourceTree = "<group>"; };
 		EE05A03B166C6BA700F280D4 /* LICENSE_GPL2_gemgem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_GPL2_gemgem; sourceTree = "<group>"; };
+		EE05A03E166C77E500F280D4 /* ggTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggTimer.h; sourceTree = "<group>"; };
+		EE05A03F166C77E500F280D4 /* ggTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ggTimer.m; sourceTree = "<group>"; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -479,6 +482,8 @@
 				EE059F9A166854E500F280D4 /* ggObject.m */,
 				EE059F9C166854E500F280D4 /* LICENSE */,
 				EE059F9D166854E500F280D4 /* README.md */,
+				EE05A03E166C77E500F280D4 /* ggTimer.h */,
+				EE05A03F166C77E500F280D4 /* ggTimer.m */,
 			);
 			name = GemGemGameFramework;
 			path = ../..;
@@ -1114,6 +1119,7 @@
 				EE05A02E166880D600F280D4 /* mainMenuLayer.m in Sources */,
 				EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */,
 				EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */,
+				EE05A040166C77E500F280D4 /* ggTimer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
