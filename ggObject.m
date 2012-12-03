@@ -195,6 +195,9 @@
   //step 3 : gem 낙하 width*height 갯수 만큼
   [self __dropGemsForFirstTime];
   CCLOG(@"*** Game Board init complete ***");
+  
+  //step 4 : timer 초기화
+  _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer at:(ccpAdd(ggConfig.BoardAnchorPosition, ccp(-15,+10))) startSize:([[CCDirector sharedDirector] winSize].width)];
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
@@ -207,11 +210,16 @@
     CGRect box = CGRectMake(s.boundingBox.origin.x - ((ggConfig.GemSizeBYPixel - s.boundingBox.size.width) / 2),
                              s.boundingBox.origin.y - ((ggConfig.GemSizeBYPixel - s.boundingBox.size.height) / 2),
                              ggConfig.GemSizeBYPixel, ggConfig.GemSizeBYPixel);
-    
+ 
+
     if (CGRectContainsPoint(box, touchedLocation)) {
-      //CGPoint p = [posAsNSValue CGPointValue];
-      //CCLOG(@"touched Gem(%.f,%.f)", p.x, p.y);
-      
+      // Start Timer
+      if ([_thisTimer getState] == ggTimerSTAT_STOPPED) {
+        [_thisTimer start];
+      } else if ([_thisTimer getState] == ggTimerSTAT_PAUSED) {
+        [_thisTimer resume];
+      }
+ 
       if ( ggConfig.GameType == 1) {
         // BurstGem Style
         if ([self isTouchAvailable:touchedLocation]) {
@@ -415,7 +423,6 @@
   [_thisCCLayer runAction:seq];
 }
 
-
 -(void) __dumpBoard:(NSMutableDictionary *)board gems:(NSMutableArray *)gems {
   for (int h = ggConfig.BoardHeight; h >= 1; h--) {
     NSString *row = @"";
@@ -454,17 +461,12 @@
 }
 
 -(CCAction *) __gemDropAtColumn:(int)columnNumber bottom:(int)bottom {
-  //if (bottom == ggConfig.BoardHeight) ) return nil; // 꼭데기 까지 차 있다면 다음줄로 ..
-
   //step1: gem 생성
   int gemType = rand() % ggConfig.GemTypeCount + 1; // 1,2,3,4
   
   NSValue *pos = [NSValue valueWithCGPoint:(CGPointMake(columnNumber, bottom))];
   
   ggGem *g = [self __registAGemTypeof:gemType AtPositionAsNSValue:pos onBoard:_board];
-  //ggBoardStruct bs;
-  //[[_board objectForKey:pos] getValue:&bs];
-  //ggGem *g = bs.Gem;
   
   //step3: 애니메이션
   // pos(w,gemBoard_height_from_config) -> pos(w,bottom)=pos
