@@ -42,12 +42,12 @@
     [CCMenuItemFont setFontSize:24];
     CCMenu *menu;
     
-    CCMenuItem *itemNewGame = [CCMenuItemFont itemWithString:@"New" block:^(id sender){
+    CCMenuItem *itemChallenge = [CCMenuItemFont itemWithString:@"Challenge mode" block:^(id sender){
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccWHITE]];
     }
                               ];
 
-    CCMenuItem *itemContinue = [CCMenuItemFont itemWithString:@"Continue" block:^(id sender){
+    CCMenuItem *itemInfinity = [CCMenuItemFont itemWithString:@"Infinity mode" block:^(id sender){
       [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccWHITE]];
     }
                               ];
@@ -85,12 +85,12 @@
                                 ];
 
     
-    menu = [CCMenu menuWithItems:itemNewGame, itemContinue, itemOptions, itemAchievement, itemLeaderboard, itemCredits, nil];
+    menu = [CCMenu menuWithItems:itemChallenge, itemInfinity, itemOptions, itemAchievement, itemLeaderboard, itemCredits, nil];
     
     //[menu alignItemsHorizontallyWithPadding:20];
     [menu alignItemsVerticallyWithPadding:10];
     
-    [menu setPosition:ccp( size.width/2, size.height/2 - 100)];
+    [menu setPosition:ccp( size.width/2, size.height/2 - 105)];
     
     // Add the menu to the layer
     [self addChild:menu z:99];
