@@ -196,10 +196,15 @@
   [self __dropGemsForFirstTime];
   CCLOG(@"*** Game Board init complete ***");
   
-  //step 4 : timer 초기화
+  //step 4 : timer 초기화 + 이벤트 받을 셀렉터 설정
   _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer
                                              at:(ccpAdd(ggConfig.BoardAnchorPosition, ccp(-16,+15))) // TODO 변수 사용 
                                       startSize:([[CCDirector sharedDirector] winSize].width)-4];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(__setAllStateAsGameover:)
+                                               name:GG_NOTIFICATION_TIMEOUT
+                                             object:_thisTimer];
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
@@ -284,14 +289,20 @@
 
   // 게임오버 판정
   if ([self __isPossible:_board] == NO) {
-    _thisStatus = ggStatusStopTheGame;
-    CCLOG(@"game over");
-    //NSDictionary * userInfoDic = [NSDictionary dictionaryWithObject:@"" forKey:@""];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self userInfo:userInfoDic];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self];
+    [self __setAllStateAsGameover:nil];
   }
 }
+
+-(void) __setAllStateAsGameover:(NSNotification *)notice {
+  _thisStatus = ggStatusStopTheGame;
+  CCLOG(@"game over");
+  //NSDictionary * userInfoDic = [NSDictionary dictionaryWithObject:@"" forKey:@""];
+  //[[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self userInfo:userInfoDic];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_GAME_OVER object:self];
+
+}
+
 
 -(BOOL) __isPossible:(NSMutableDictionary *)_tempBoard {
   NSMutableArray *gems = [[NSMutableArray alloc] init]; // 연속 확인 할 결과물

@@ -62,7 +62,8 @@
                                              scaleY:(10/bar3.contentSize.height) ]];
     } else if (currentValue <= 0) {
       [Timer invalidate]; // stop timer
-      // send notification TODO 
+      // send notification TODO
+      [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_TIMEOUT object:self];
     }
   } else {
     CCLOG(@"tick but STOPPED - continue:%d", currentValue);

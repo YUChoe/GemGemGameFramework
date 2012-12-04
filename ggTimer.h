@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ggConfig.h"
 
+#define GG_NOTIFICATION_TIMEOUT   @"ggEVENT_Timeout"
 
 typedef enum {
   ggTimerSTAT_STOPPED, // just initized, finished, ... etc
