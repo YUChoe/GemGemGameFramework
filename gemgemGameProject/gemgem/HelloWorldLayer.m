@@ -26,14 +26,34 @@
 {
 	if( (self=[super init]) ) {
     self.isTouchEnabled = YES;
-    
-    ScoreLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Marker Felt" fontSize:18];
-    ScoreLabel.position =  ccp( 80 , 455 ); // 가능하면 위쪽 꼭데기. 정렬이 가운데겠지만
+    CGSize size = [[CCDirector sharedDirector] winSize];
+
+    ScoreLabel = [CCLabelTTF labelWithString:@"0"
+                                  dimensions:CGSizeMake(size.width/2, 30) hAlignment:kCCTextAlignmentRight
+                                    fontName:@"Marker Felt" fontSize:18 ];
+    ScoreLabel.anchorPoint = ccp(1, 0.5f); // 우측 중간을 앵커로 //좌하(0, 0), 우상(1, 1)
+    ScoreLabel.position =  ccp( (size.width - 30), (size.height - 30) ); // 가능하면 위쪽 꼭데기. 정렬이 가운데겠지만
     [self addChild:ScoreLabel];
     
     [self performSelector:@selector(finishLoading) withObject:nil afterDelay:1.0f];
 	}
 	return self;
+}
+
+-(void) finishLoading {
+  GG = [[ggObject alloc] initWithCCLayer:self];
+  [GG loadDefaultConfiguration]; // issue#5, #17 관련
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(scoreUpdator:)
+                                               name:GG_NOTIFICATION_SCORE_UPDATE
+                                             object:GG];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(show_GameOver:)
+                                               name:GG_NOTIFICATION_GAME_OVER
+                                             object:GG];
+  
+  [GG run];
 }
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -47,22 +67,6 @@
     
     [GG touchesEnded:touchedlocation];
   }
-}
-
--(void) finishLoading {
-  GG = [[ggObject alloc] initWithCCLayer:self];
-  [GG loadDefaultConfiguration];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(scoreUpdator:)
-                                               name:GG_NOTIFICATION_SCORE_UPDATE
-                                             object:GG];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(show_GameOver:)
-                                               name:GG_NOTIFICATION_GAME_OVER
-                                             object:GG];
-
-  [GG run];
 }
 
 -(void) show_GameOver:(NSNotification *)notification {
