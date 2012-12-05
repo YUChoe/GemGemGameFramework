@@ -9,6 +9,7 @@
 
 #import "HelloWorldLayer.h"
 #import "AppDelegate.h"
+#import "SimpleAudioEngine.h"
 
 #pragma mark - HelloWorldLayer
 
@@ -46,6 +47,15 @@
 }
 
 -(void) finishLoading {
+  SimpleAudioEngine *sae = [SimpleAudioEngine sharedEngine];
+  if (sae != nil) {
+    [sae preloadBackgroundMusic:@"bombexplosion.wav"];
+    
+    if (sae.willPlayBackgroundMusic) {
+      sae.backgroundMusicVolume = 0.5f;
+    }
+  } // of preloading
+  
   GG = [[ggObject alloc] initWithCCLayer:self];
   [GG loadDefaultConfiguration]; // issue#5, #17 관련
   CCLOG(@"finishing init: game as _GameType:%d", _GameType);
@@ -62,6 +72,13 @@
                                                name:GG_NOTIFICATION_GAME_OVER
                                              object:GG];
   
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(soundEffect_burst:)
+                                               name:GG_NOTIFICATION_ACTION_BURST
+                                             object:GG];
+  
+  
+      
   [GG run];
 }
 
@@ -76,6 +93,11 @@
     
     [GG touchesEnded:touchedlocation];
   }
+}
+
+-(void) soundEffect_burst:(NSNotification *)notification {
+  CCLOG(@"soundEffect_burst");
+  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
 }
 
 -(void) show_GameOver:(NSNotification *)notification {
