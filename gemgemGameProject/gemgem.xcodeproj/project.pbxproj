@@ -26,6 +26,7 @@
 		EE05A044166CA21100F280D4 /* timer_bar_green.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A041166CA21100F280D4 /* timer_bar_green.png */; };
 		EE05A045166CA21100F280D4 /* timer_bar_red.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A042166CA21100F280D4 /* timer_bar_red.png */; };
 		EE05A046166CA21100F280D4 /* timer_bar_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A043166CA21100F280D4 /* timer_bar_yellow.png */; };
+		EE05A1FC166F45A000F280D4 /* bombexplosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = EE05A1FB166F45A000F280D4 /* bombexplosion.wav */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -181,6 +182,7 @@
 		EE05A041166CA21100F280D4 /* timer_bar_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bar_green.png; sourceTree = "<group>"; };
 		EE05A042166CA21100F280D4 /* timer_bar_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bar_red.png; sourceTree = "<group>"; };
 		EE05A043166CA21100F280D4 /* timer_bar_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bar_yellow.png; sourceTree = "<group>"; };
+		EE05A1FB166F45A000F280D4 /* bombexplosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bombexplosion.wav; sourceTree = SOURCE_ROOT; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -471,6 +473,7 @@
 				EE05A02F166893C400F280D4 /* logo.png */,
 				EED06944166605D700E12246 /* Iconx2.png */,
 				EED06942166605A200E12246 /* Icon.png */,
+				EE05A1FB166F45A000F280D4 /* bombexplosion.wav */,
 				EED0693F166603D000E12246 /* Default.png */,
 			);
 			name = userResources;
@@ -1012,6 +1015,7 @@
 				EE05A044166CA21100F280D4 /* timer_bar_green.png in Resources */,
 				EE05A045166CA21100F280D4 /* timer_bar_red.png in Resources */,
 				EE05A046166CA21100F280D4 /* timer_bar_yellow.png in Resources */,
+				EE05A1FC166F45A000F280D4 /* bombexplosion.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
