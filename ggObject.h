@@ -22,6 +22,7 @@ typedef enum {
 #define GG_NOTIFICATION_SCORE_UPDATE @"ggEVENT_ScoreUpdate"
 #define GG_NOTIFICATION_GAME_OVER    @"ggEVENT_GameOver"
 #define GG_NOTIFICATION_TIME_EVENT   @"ggEVENT_TimeEvent"
+#define GG_NOTIFICATION_ACTION_BURST @"ggEVENT_brickBurst"
 
 struct ggBoardStruct
 {

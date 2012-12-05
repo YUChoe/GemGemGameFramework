@@ -280,6 +280,9 @@
     } else {
       [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeAdd)];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_BURST object:self];
+    
     // 다시 gem drop
     [self __fillBlank:blankColumns];
   
