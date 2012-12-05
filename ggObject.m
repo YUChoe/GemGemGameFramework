@@ -197,6 +197,8 @@
   CCLOG(@"*** Game Board init complete ***");
   
   //step 4 : timer 초기화 + 이벤트 받을 셀렉터 설정
+  if (ggConfig.GameType == 1) {
+    // challenge mode
   _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer
                                              at:(ccpAdd(ggConfig.BoardAnchorPosition, ccp(-16,+15))) // TODO 변수 사용 
                                       startSize:([[CCDirector sharedDirector] winSize].width)-4];
@@ -205,6 +207,9 @@
                                            selector:@selector(__setAllStateAsGameover:)
                                                name:GG_NOTIFICATION_TIMEOUT
                                              object:_thisTimer];
+  } else if (ggConfig.GameType == 2) {
+    // timer 없음 
+  }
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
@@ -227,14 +232,14 @@
         [_thisTimer resume];
       }
  
-      if ( ggConfig.GameType == 1) {
-        // BurstGem Style
+      if ( ggConfig.GameType == 1 || ggConfig.GameType == 2) {
+        // BurstGem Style : challenge or infinity modes
         if ([self isTouchAvailable:touchedLocation]) {
           // go Burst !
           _lastEventTouchPoint = touchedLocation;
           [self goGemBurst:posAsNSValue];
         }
-      } else if (ggConfig.GameType == 2) {
+      } else if (ggConfig.GameType == 3) {
         // beJuweled Style
       }
       return;
@@ -308,6 +313,8 @@
   NSMutableArray *gems = [[NSMutableArray alloc] init]; // 연속 확인 할 결과물
   NSMutableArray *checkedGem = [[NSMutableArray alloc] init]; // 확인 했는지 체크 gems 가 돌아오면 여기에 더한다
   
+  int possibleCount = 0;
+  
   for (NSValue *posAsNSValue in _tempBoard) {
     //CCLOG(@"checkLoop:_board(%.f,%.f)", [posAsNSValue CGPointValue].x, [posAsNSValue CGPointValue].y);
     NSValue *valueFrom_board = [_tempBoard objectForKey:posAsNSValue];
@@ -324,8 +331,18 @@
     
     [self GemContinuous:posAsNSValue gemType:bs.gemType refArray:gems fromBoard:_tempBoard];
     
+    // TODO 로직 정리
     if ([gems count] >= ggConfig.GameMadeGems ) {
+      possibleCount++;
+      if (possibleCount > 1) {
       return YES; // 풀게 있음
+      } else {
+        // checked 에 집어 넣고 for문 계속
+        for (NSValue *v in gems) {
+          [checkedGem addObject:v];
+        }
+        continue;
+      }
     } else {
       // checked 에 집어 넣고 for문 계속
       for (NSValue *v in gems) {

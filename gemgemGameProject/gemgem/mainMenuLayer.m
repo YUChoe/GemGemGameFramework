@@ -43,12 +43,14 @@
     CCMenu *menu;
     
     CCMenuItem *itemChallenge = [CCMenuItemFont itemWithString:@"Challenge mode" block:^(id sender){
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccWHITE]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0
+                                                                                     scene:[HelloWorldLayer nodeWithGameType:1]
+                                                                                 withColor:ccWHITE]];
     }
                               ];
 
     CCMenuItem *itemInfinity = [CCMenuItemFont itemWithString:@"Infinity mode" block:^(id sender){
-      [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccWHITE]];
+      [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer nodeWithGameType:2] withColor:ccWHITE]];
     }
                               ];
     

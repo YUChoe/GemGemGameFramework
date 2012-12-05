@@ -22,9 +22,14 @@
 	return scene;
 }
 
--(id) init
++(id) nodeWithGameType:(int)gametype {
+ return  [[[self alloc] initWithGameType:gametype] autorelease];
+}
+
+-(id) initWithGameType:(int)gametype
 {
 	if( (self=[super init]) ) {
+    _GameType = gametype;
     self.isTouchEnabled = YES;
     CGSize size = [[CCDirector sharedDirector] winSize];
 
@@ -43,6 +48,10 @@
 -(void) finishLoading {
   GG = [[ggObject alloc] initWithCCLayer:self];
   [GG loadDefaultConfiguration]; // issue#5, #17 관련
+  CCLOG(@"finishing init: game as _GameType:%d", _GameType);
+  if (_GameType != 0) {
+    [GG setConfig:@"GemGemGameType" value:[NSNumber numberWithInt:_GameType]]; // 1,2,3 이런식으로는 명확치 않음 -_- TODO
+  }
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(scoreUpdator:)

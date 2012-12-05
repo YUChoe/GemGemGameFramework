@@ -18,9 +18,11 @@
 {
   ggObject *GG;
   CCLabelTTF *ScoreLabel;
+  int   _GameType;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
++(id) nodeWithGameType:(int)gametype;
 
 @end
