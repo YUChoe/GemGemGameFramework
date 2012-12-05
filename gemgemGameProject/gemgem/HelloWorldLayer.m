@@ -102,7 +102,7 @@
   
   CCMenuItem *itemReplay = [CCMenuItemFont itemWithString:@"Replay" block:^(id sender){
     //[[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInR transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];
-    [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer scene]];
+    [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer nodeWithGameType:_GameType]];
   }
                             ];
   
