@@ -134,7 +134,7 @@
 }
 
 -(void) resume {
-  if (ggTimerSTAT_STOPPED) {
+  if (status == ggTimerSTAT_STOPPED) {
     Timer = [NSTimer scheduledTimerWithTimeInterval:timer_interval target:self selector:@selector(timerTick:) userInfo:nil repeats:YES ];
     status = ggTimerSTAT_RUNNING;
   } else {
