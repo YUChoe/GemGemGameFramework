@@ -49,23 +49,29 @@
     pauseButtonSprite.scale = 16 / pauseButtonSprite.contentSize.width;
     CCMenu *menuButtons = [CCMenu menuWithItems:
                            [CCMenuItemSprite itemWithNormalSprite:pauseButtonSprite selectedSprite:nil block:^(id sender){
-      _isGamePaused = YES;
-      CCLOG(@"pause button pressed");
-      [self drawShadow];
-
-      CCLabelTTF *label = [CCLabelTTF labelWithString:@"PAUSE" fontName:@"Marker Felt" fontSize:64];
-      label.color = ccRED;
-      label.position =  ccp( size.width /2 , size.height/2 );
-      
-      [overLayerObjects addObject:label];
-      
-      [self addChild: label z:99];
-      [GG setGamePause];
+      if (_isGamePaused == NO) {
+        _isGamePaused = YES;
+        
+        CCLOG(@"pause button pressed");
+        [self drawShadow];
+        
+        CCLabelTTF *label = [CCLabelTTF labelWithString:@"PAUSE" fontName:@"Marker Felt" fontSize:64];
+        label.color = ccRED;
+        label.position =  ccp( size.width /2 , size.height/2 );
+        
+        [overLayerObjects addObject:label];
+        
+        [self addChild: label z:99];
+        [GG setGamePause];
+        
+      } else {
+        CCLOG(@"paused 상태에서 다시 버튼 눌림 발생");
+      }
     }], nil];
     [menuButtons setPosition:ccp(40, size.height - 5)];
     
     [self addChild:menuButtons];
-
+    
     
     [self performSelector:@selector(finishLoading) withObject:nil afterDelay:1.0f];
 	}
@@ -110,11 +116,13 @@
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   if (_isGamePaused == YES) {
+    // resume
     for (id obj in overLayerObjects) {
       [self removeChild:obj cleanup:YES];
-      _isGamePaused = NO;
-      [GG setGameResume];
     }
+    _isGamePaused = NO;
+    [GG setGameResume];
+    //menuButtons.visible = YES;
   } else {
   
   NSArray* allTouches = [[event allTouches] allObjects];
