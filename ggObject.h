@@ -98,6 +98,10 @@ typedef struct ggConfigStruct ggConfigStruct;
 -(NSMutableDictionary *) __gravityJob:(NSMutableArray *)gems;
 -(ggGem *) __registAGemTypeof:(int)gemType AtPositionAsNSValue:(NSValue *)posAsVal onBoard:(NSMutableDictionary *)targetBoard;
 
+//timer 관련
+-(void) setGamePause;
+-(void) setGameResume;
+
 //unit convert
 -(CGPoint) __TopReadyPosition_NSValue2CGPoint:(NSValue *)value;
 -(CGPoint) __Position_NSValue2CGPoint:(NSValue *)value;

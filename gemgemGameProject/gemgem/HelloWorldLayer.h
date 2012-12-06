@@ -19,6 +19,9 @@
   ggObject *GG;
   CCLabelTTF *ScoreLabel;
   int   _GameType;
+  CCSprite            *pauseButtonSprite;
+  BOOL _isGamePaused;
+  NSMutableArray *overLayerObjects;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

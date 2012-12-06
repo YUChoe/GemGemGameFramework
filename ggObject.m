@@ -212,6 +212,15 @@
   }
 }
 
+-(void) setGamePause {
+  [_thisTimer pause];
+}
+-(void) setGameResume {
+  [_thisTimer resume];
+}
+
+
+
 -(void) touchesEnded:(CGPoint)touchedLocation {
 
   for (NSValue *posAsNSValue in _board) {

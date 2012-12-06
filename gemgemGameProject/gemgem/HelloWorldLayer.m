@@ -32,14 +32,40 @@
 	if( (self=[super init]) ) {
     _GameType = gametype;
     self.isTouchEnabled = YES;
+    _isGamePaused = NO;
+    overLayerObjects = [[NSMutableArray alloc] init];
+    
     CGSize size = [[CCDirector sharedDirector] winSize];
 
+    // 상단 메뉴 
     ScoreLabel = [CCLabelTTF labelWithString:@"0"
                                   dimensions:CGSizeMake(size.width/2, 30) hAlignment:kCCTextAlignmentRight
                                     fontName:@"Marker Felt" fontSize:18 ];
     ScoreLabel.anchorPoint = ccp(1, 0.5f); // 우측 중간을 앵커로 //좌하(0, 0), 우상(1, 1)
     ScoreLabel.position =  ccp( (size.width - 30), (size.height - 30) ); // 가능하면 위쪽 꼭데기. 정렬이 가운데겠지만
     [self addChild:ScoreLabel];
+    
+    pauseButtonSprite = [CCSprite spriteWithFile:@"pause.png"];
+    pauseButtonSprite.scale = 16 / pauseButtonSprite.contentSize.width;
+    CCMenu *menuButtons = [CCMenu menuWithItems:
+                           [CCMenuItemSprite itemWithNormalSprite:pauseButtonSprite selectedSprite:nil block:^(id sender){
+      _isGamePaused = YES;
+      CCLOG(@"pause button pressed");
+      [self drawShadow];
+
+      CCLabelTTF *label = [CCLabelTTF labelWithString:@"PAUSE" fontName:@"Marker Felt" fontSize:64];
+      label.color = ccRED;
+      label.position =  ccp( size.width /2 , size.height/2 );
+      
+      [overLayerObjects addObject:label];
+      
+      [self addChild: label z:99];
+      [GG setGamePause];
+    }], nil];
+    [menuButtons setPosition:ccp(40, size.height - 5)];
+    
+    [self addChild:menuButtons];
+
     
     [self performSelector:@selector(finishLoading) withObject:nil afterDelay:1.0f];
 	}
@@ -83,6 +109,13 @@
 }
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (_isGamePaused == YES) {
+    for (id obj in overLayerObjects) {
+      [self removeChild:obj cleanup:YES];
+      _isGamePaused = NO;
+      [GG setGameResume];
+    }
+  } else {
   
   NSArray* allTouches = [[event allTouches] allObjects];
   
@@ -93,6 +126,7 @@
     
     [GG touchesEnded:touchedlocation];
   }
+  }
 }
 
 -(void) soundEffect_burst:(NSNotification *)notification {
@@ -100,19 +134,32 @@
   [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
 }
 
--(void) show_GameOver:(NSNotification *)notification {
-  self.isTouchEnabled = NO;
+-(void) drawShadow {
   CGSize size = [[CCDirector sharedDirector] winSize];
 
   CCSprite *shadow = [CCSprite spriteWithFile:@"shadow.png"];
   shadow.scaleX = size.width / shadow.contentSize.width;
   shadow.scaleY = size.height / shadow.contentSize.height;
   shadow.position = ccp(size.width/2, size.height/2);
+  
+  [overLayerObjects addObject:shadow];
+  
   [self addChild:shadow z:98];
+}
+
+-(void) show_GameOver:(NSNotification *)notification {
+  self.isTouchEnabled = NO;
+  CGSize size = [[CCDirector sharedDirector] winSize];
+
+  [self drawShadow];
   
   CCLabelTTF *label = [CCLabelTTF labelWithString:@"GAME OVER" fontName:@"Marker Felt" fontSize:64];
+  if (_GameType == 1) label.string = @"TIME OUT";
   label.color = ccRED;
   label.position =  ccp( size.width /2 , size.height/2 );
+  
+  [overLayerObjects addObject:label];
+  
   [self addChild: label z:99];
   
   //
@@ -144,6 +191,7 @@
   [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
   
   // Add the menu to the layer
+  [overLayerObjects addObject:menu];
   [self addChild:menu z:99];
 }
 
