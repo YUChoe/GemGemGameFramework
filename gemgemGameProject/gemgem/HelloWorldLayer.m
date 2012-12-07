@@ -138,7 +138,7 @@
 }
 
 -(void) soundEffect_burst:(NSNotification *)notification {
-  CCLOG(@"soundEffect_burst");
+  //CCLOG(@"soundEffect_burst");
   [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
 }
 

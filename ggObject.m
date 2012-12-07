@@ -208,6 +208,7 @@
                                                name:GG_NOTIFICATION_TIMEOUT
                                              object:_thisTimer];
   } else if (ggConfig.GameType == 2) {
+    // infinity mode 
     // timer 없음 
   }
 }
@@ -215,11 +216,17 @@
 -(void) setGamePause {
   [_thisTimer pause];
 }
+
 -(void) setGameResume {
   [_thisTimer resume];
 }
 
+-(void) __giveBonusTime:(float)bonustime {
+  CCLOG(@"before bonus:%d", [_thisTimer getCurrentValue]);
 
+[_thisTimer setBonusTime:bonustime];
+  CCLOG(@"after bonus:%d", [_thisTimer getCurrentValue]);
+}
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
 
@@ -232,7 +239,6 @@
                              s.boundingBox.origin.y - ((ggConfig.GemSizeBYPixel - s.boundingBox.size.height) / 2),
                              ggConfig.GemSizeBYPixel, ggConfig.GemSizeBYPixel);
  
-
     if (CGRectContainsPoint(box, touchedLocation)) {
       // Start Timer
       if ([_thisTimer getState] == ggTimerSTAT_STOPPED) {
@@ -284,12 +290,16 @@
     // TODO: 빈칸채우기
     NSMutableDictionary *blankColumns = [self __gravityJob:gems];
     // Score Update
-    if ([gems count] >= ggConfig.GameMadeBonusGems) { // Bonus !!
+    if ([gems count] >= ggConfig.GameMadeBonusGems) {
+      // no Bonus !!
       [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeBonus)];
     } else {
+      // bonus !
       [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeAdd)];
     }
-    
+
+    [self __giveBonusTime:1];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_BURST object:self];
     
     // 다시 gem drop

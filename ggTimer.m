@@ -70,6 +70,13 @@
   }
 }
 
+-(void) setBonusTime:(float)bonustime {
+  // + bonustime
+  currentValue = currentValue + bonustime;
+  // get current visible bar
+  // animation
+  
+}
 
 -(void) __initSprites {
   currentValue = startValue;

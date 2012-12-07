@@ -44,6 +44,7 @@ typedef enum {
 -(ggTimerStatus) getState;
 
 -(int) getCurrentValue;
+-(void) setBonusTime:(float)bonustime;
 
 -(void) start;
 -(void) pause;
