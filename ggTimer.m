@@ -33,7 +33,7 @@
 -(void) timerTick:(NSTimer *)sender {
   if (status != ggTimerSTAT_STOPPED) {
     currentValue = currentValue - 1;
-    CCLOG(@"time:%d", currentValue);
+    CCLOG(@"time:%.1f", currentValue);
     
     // animation
     if (currentValue > warningPoint) {
@@ -66,7 +66,7 @@
       [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_TIMEOUT object:self];
     }
   } else {
-    CCLOG(@"tick but STOPPED - continue:%d", currentValue);
+    CCLOG(@"tick but STOPPED - continue:%.1f", currentValue);
   }
 }
 
@@ -74,8 +74,25 @@
   // + bonustime
   currentValue = currentValue + bonustime;
   // get current visible bar
+  CCSprite *cb = [self getCurrentBar];
+  float animation_ratio = cb.boundingBox.size.width * (1 + (bonustime/60)) / cb.boundingBox.size.width;
+  //CCLOG(@"ratio(%.1f) = %.f * ( 1 + (%.1f / 60) ) / %.f", animation_ratio, cb.boundingBox.size.width ,bonustime, cb.boundingBox.size.width);
   // animation
-  
+  [cb runAction:[CCScaleBy actionWithDuration:0.1f scaleX:animation_ratio scaleY:0.9f]];
+  // 부풀려 놓으면 다음 틱 애니메이션때 원상 복구 됨
+  // 근데 안이뻐 ! 
+}
+
+-(CCSprite *) getCurrentBar {
+  if (currentValue > warningPoint) {
+    return bar1;
+  } else if (currentValue < warningPoint && currentValue > dangerPoint) {
+    return bar2;
+  } else if (currentValue < dangerPoint && currentValue > 0) {
+    return bar3;
+  }
+  CCLOG(@"ERR: there is no current bar !!"); 
+  return nil;
 }
 
 -(void) __initSprites {
@@ -124,7 +141,7 @@
   return status;
 }
 
--(int) getCurrentValue {
+-(float) getCurrentValue {
   return currentValue;
 }
 

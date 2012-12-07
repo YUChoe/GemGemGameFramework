@@ -31,7 +31,7 @@ typedef enum {
   float timer_interval;
   
   int startValue;
-  int currentValue;
+  float currentValue;
   int warningPoint;
   int dangerPoint;
   
@@ -43,7 +43,7 @@ typedef enum {
 -(void) setState:(ggTimerStatus)newStatus;
 -(ggTimerStatus) getState;
 
--(int) getCurrentValue;
+-(float) getCurrentValue;
 -(void) setBonusTime:(float)bonustime;
 
 -(void) start;

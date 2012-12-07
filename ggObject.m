@@ -222,10 +222,10 @@
 }
 
 -(void) __giveBonusTime:(float)bonustime {
-  CCLOG(@"before bonus:%d", [_thisTimer getCurrentValue]);
-
-[_thisTimer setBonusTime:bonustime];
-  CCLOG(@"after bonus:%d", [_thisTimer getCurrentValue]);
+  //CCLOG(@"before bonus:%d", [_thisTimer getCurrentValue]);
+  [_thisTimer setBonusTime:bonustime];
+  CCLOG(@"after bonus:%.1f", [_thisTimer getCurrentValue]);
+  
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
