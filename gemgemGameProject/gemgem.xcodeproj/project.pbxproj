@@ -154,6 +154,7 @@
 		EED06943166605A200E12246 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EED06942166605A200E12246 /* Icon.png */; };
 		EED06945166605D700E12246 /* Iconx2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED06944166605D700E12246 /* Iconx2.png */; };
 		EED0694C16673DCE00E12246 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = EED0694B16673DCE00E12246 /* shadow.png */; };
+		EEF31FF716730CCF00F5B93B /* ggItems.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF31FF616730CCF00F5B93B /* ggItems.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -447,6 +448,8 @@
 		EED06942166605A200E12246 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		EED06944166605D700E12246 /* Iconx2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Iconx2.png; path = ../Iconx2.png; sourceTree = "<group>"; };
 		EED0694B16673DCE00E12246 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
+		EEF31FF516730CCF00F5B93B /* ggItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggItems.h; sourceTree = "<group>"; };
+		EEF31FF616730CCF00F5B93B /* ggItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ggItems.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,6 +494,8 @@
 				EE059F97166854E500F280D4 /* ggGem.h */,
 				EE059F98166854E500F280D4 /* ggGem.m */,
 				EE059F99166854E500F280D4 /* ggObject.h */,
+				EEF31FF516730CCF00F5B93B /* ggItems.h */,
+				EEF31FF616730CCF00F5B93B /* ggItems.m */,
 				EE059F9A166854E500F280D4 /* ggObject.m */,
 				EE059F9C166854E500F280D4 /* LICENSE */,
 				EE059F9D166854E500F280D4 /* README.md */,
@@ -1140,6 +1145,7 @@
 				EE05A03316689B7200F280D4 /* optionsLayer.m in Sources */,
 				EE05A03616689FA300F280D4 /* creditsLayer.m in Sources */,
 				EE05A040166C77E500F280D4 /* ggTimer.m in Sources */,
+				EEF31FF716730CCF00F5B93B /* ggItems.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
