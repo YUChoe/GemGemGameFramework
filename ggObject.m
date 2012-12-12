@@ -237,11 +237,24 @@
   CCLOG(@"after bonus:%.1f", [_thisTimer getCurrentValue]);
   
 }
+-(void) __itemEffect:(NSMutableArray *)item {
+  CCSprite *s = [item objectAtIndex:0];
+  int itemType = [[item objectAtIndex:1] intValue];
+      CCLOG(@"item effect:%d on board", itemType);
+  if (itemType == 0) { // test default
+    //
+
+  }
+  [_thisCCLayer removeChild:s cleanup:YES];
+}
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
   // items 영역 touched
   if (touchedLocation.y < ggConfig.BoardAnchorPosition.y) {
-    if ([_thisItems touchesEnded:touchedLocation]) return;
+    if ([_thisItems touchesEnded:touchedLocation] == YES) { // item이 터치 된게 맞다면
+      [self __itemEffect:[_thisItems popItem]];
+      return;
+    }
   }
   // gems / board 영역 touched
   for (NSValue *posAsNSValue in _board) {

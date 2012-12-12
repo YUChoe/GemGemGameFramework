@@ -30,13 +30,16 @@
     filename = @"pause.png";
   }
   CCSprite *s = [CCSprite spriteWithFile:filename];
-  s.position = ccpAdd(_anchorPoint, ccp((70 * [items count]),0));
+  // starting position
+  s.position = ccpAdd(_anchorPoint, ccp(70 * 5,0));
   [_thisCCLayer addChild:s];
   // 등장 animation
+  [s runAction:[CCMoveTo actionWithDuration:0.5f position:ccpAdd(_anchorPoint, ccp((70 * [items count]),0))]];
+  //
+  [i addObject:s];                                 // idx:0
+  [i addObject:[NSNumber numberWithInt:itemType]]; // idx:1
   
   //
-  [i addObject:s];
-  
   [items addObject:i];
 }
 
@@ -44,13 +47,34 @@
   NSMutableArray *i;
   if ([items count] > 0) {
     i = [items objectAtIndex:0];
-    //    [items remove at index:0];
+    /*
+    CCSprite *s = [i objectAtIndex:0];
+    // remove sprite animation
+    [s runAction:[]];
+    //remove from layer 
+    [_thisCCLayer removeChild:s cleanup:YES];
+    */
+    //
+    [items removeObjectAtIndex:0];
+    
+    [self _reOrderItems];
+    
     return i;
   } else {
-    CCLOG(@"no more items");
+    CCLOG(@"popItem:no more items");
     return nil;
   }
 
+}
+
+-(void) _reOrderItems {
+  // pop 된 이후(removeObjectAtIndex) 니까
+  // 인덱스가 이미 1씩 빠져 있음
+  // 그러나 애니메이션이나 board 처리 객체에서의 작업이 안 끝났을 수도있음
+  for(int idx=0; idx < [items count]; idx++) {
+    CCSprite *s = [[items objectAtIndex:idx] objectAtIndex:0];
+    [s runAction:[CCMoveTo actionWithDuration:0.3f position:ccpAdd(_anchorPoint, ccp((70 * idx),0))]];
+  }
 }
 
 -(BOOL) touchesEnded:(CGPoint)toucheslocation {
@@ -59,8 +83,9 @@
     CCSprite *s = [i objectAtIndex:0];
     
     if (CGRectContainsPoint(s.boundingBox, toucheslocation)) {
-      CCLOG(@"touched item[%d]", idx);
-      
+      CCLOG(@"touched item[%d]_%d", idx, [[i objectAtIndex:1] intValue]);
+      // 사용 후 제거
+      // pop 애니메이션
       return YES;
     }
   }

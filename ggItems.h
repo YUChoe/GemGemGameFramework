@@ -18,7 +18,7 @@
 
 -(id) initWithCCLayer:(CCLayer *)cclayer at_y:(float)positionY;
 
-//-(void) addItem:(int)itemType;
+-(int) defineItemType:(NSMutableArray *)itemDefinision;
 
 -(void) pushItem:(int)itemType;
 -(NSMutableArray *) popItem;
