@@ -10,6 +10,7 @@
 #import "ggConfig.h"
 #import "ggGem.h"
 #import "ggTimer.h"
+#import "ggItems.h"
 
 typedef enum {
   ggStatusINIT,
@@ -62,6 +63,7 @@ typedef struct ggConfigStruct ggConfigStruct;
   //BOOL                localAnimationStatus;
   ggConfigStruct      ggConfig;
   ggTimer             *_thisTimer;
+  ggItems             *_thisItems;
   
   int                 _gameScore;
   

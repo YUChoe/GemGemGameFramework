@@ -12,10 +12,11 @@
 @interface ggItems : NSObject
 {
   NSMutableArray *items;
-  
+  CCLayer        *_thisCCLayer;
+  CGPoint        _anchorPoint;
 }
 
--(id) initWithCCLayer:(CCLayer *)cclayer at_x:(float)positionX;
+-(id) initWithCCLayer:(CCLayer *)cclayer at_y:(float)positionY;
 
 //-(void) addItem:(int)itemType;
 

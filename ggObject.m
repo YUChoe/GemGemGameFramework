@@ -194,9 +194,18 @@
   
   //step 3 : gem 낙하 width*height 갯수 만큼
   [self __dropGemsForFirstTime];
-  CCLOG(@"*** Game Board init complete ***");
   
-  //step 4 : timer 초기화 + 이벤트 받을 셀렉터 설정
+  //step 4 : items 자리 잡기
+  _thisItems = [[ggItems alloc] initWithCCLayer:_thisCCLayer at_y:(ggConfig.BoardAnchorPosition.y - 25)];
+  
+  //TEST
+  [_thisItems pushItem:0];
+    [_thisItems pushItem:0];
+    [_thisItems pushItem:0];
+    [_thisItems pushItem:0];
+    [_thisItems pushItem:0];
+  
+  //step 5 : timer 초기화 + 이벤트 받을 셀렉터 설정
   if (ggConfig.GameType == 1) {
     // challenge mode
   _thisTimer = [[ggTimer alloc] initWithCCLayer:_thisCCLayer
@@ -211,6 +220,7 @@
     // infinity mode 
     // timer 없음 
   }
+  CCLOG(@"*** Game Board init complete ***");
 }
 
 -(void) setGamePause {
