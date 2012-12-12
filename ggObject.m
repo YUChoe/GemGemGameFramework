@@ -178,17 +178,17 @@
   _board = [[NSMutableDictionary alloc] init];
 
   // config
-  ggConfig.GameType            = [[_ggConfig objectForKey:@"GemGemGameType"]     intValue];
+  ggConfig.GameType            = [[_ggConfig objectForKey:@"GemGemGameType"]         intValue];
   
-  ggConfig.GemSizeBYPixel      = [[_ggConfig objectForKey:@"GemBoard_unitPixel"] intValue];
-  ggConfig.BoardHeight         = [[_ggConfig objectForKey:@"GemBoard_height"]    intValue];
-  ggConfig.BoardWidth          = [[_ggConfig objectForKey:@"GemBoard_width"]     intValue];
-  ggConfig.BoardAnchorPosition = [[_ggConfig objectForKey:@"GemBoard_anchor_pos"] CGPointValue];
+  ggConfig.GemSizeBYPixel      = [[_ggConfig objectForKey:@"GemBoard_unitPixel"]     intValue];
+  ggConfig.BoardHeight         = [[_ggConfig objectForKey:@"GemBoard_height"]        intValue];
+  ggConfig.BoardWidth          = [[_ggConfig objectForKey:@"GemBoard_width"]         intValue];
+  ggConfig.BoardAnchorPosition = [[_ggConfig objectForKey:@"GemBoard_anchor_pos"]    CGPointValue];
   
-  ggConfig.GemTypeCount        = [[_ggConfig objectForKey:@"GemTypeCount"] intValue];
-  ggConfig.GameMadeGems        = [[_ggConfig objectForKey:@"GemGame_MadeGems"] intValue];
+  ggConfig.GemTypeCount        = [[_ggConfig objectForKey:@"GemTypeCount"]           intValue];
+  ggConfig.GameMadeGems        = [[_ggConfig objectForKey:@"GemGame_MadeGems"]       intValue];
   ggConfig.GameMadeBonusGems   = [[_ggConfig objectForKey:@"GemGame_MadeGems_Bonus"] intValue];
-  ggConfig.GameScodeAdd        = [[_ggConfig objectForKey:@"GemGame_Score_Add"] intValue];
+  ggConfig.GameScodeAdd        = [[_ggConfig objectForKey:@"GemGame_Score_Add"]      intValue];
   ggConfig.GameScodeBonus      = [[_ggConfig objectForKey:@"GemGame_ScoreBonus_Add"] intValue];
 
   //step 2 : board 그리기
@@ -365,11 +365,17 @@
       // bonus !
       [self setScore: _gameScore + ([gems count] * ggConfig.GameScodeAdd)];
     }
-
-    [self __giveBonusTime:1];
+    
+    //TODO : 정리 필요
+    if (ggConfig.GameType != 1) {
+      [self __giveBonusTime:1];
+    }
     
     if (_gameScore > _nextBonusScore) { // TEST every 500 points
-      [self __giveBonusItemRandomly];
+      if ( (ggConfig.GameType == 2 && [_thisItems count] < 5) ||  ggConfig.GameType == 1) {
+        [self __giveBonusItemRandomly];
+      }
+
       _nextBonusScore = _nextBonusScore + 500;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_BURST object:self];

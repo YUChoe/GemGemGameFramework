@@ -43,6 +43,10 @@
   [items addObject:i];
 }
 
+-(int) count {
+  return [items count];
+}
+
 -(NSMutableArray *) popItem {
   NSMutableArray *i;
   if ([items count] > 0) {

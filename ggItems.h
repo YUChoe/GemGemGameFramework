@@ -17,7 +17,7 @@
 }
 
 -(id) initWithCCLayer:(CCLayer *)cclayer at_y:(float)positionY;
-
+-(int) count;
 -(int) defineItemType:(NSMutableArray *)itemDefinision;
 
 -(void) pushItem:(int)itemType;
