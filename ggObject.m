@@ -240,11 +240,47 @@
 -(void) __itemEffect:(NSMutableArray *)item {
   CCSprite *s = [item objectAtIndex:0];
   int itemType = [[item objectAtIndex:1] intValue];
-      CCLOG(@"item effect:%d on board", itemType);
-  if (itemType == 0) { // test default
-    //
+  CCLOG(@"item effect:%d on board", itemType);
+  NSMutableArray *gems = [[NSMutableArray alloc] init];
+  
+  if (itemType == 2) { // test default
+    // 가로로 1줄 없애기
+    int h = rand() % ggConfig.BoardHeight + 1;
 
+    for (int w = 1; w<=ggConfig.BoardWidth; w++) {
+      [gems addObject:[NSValue valueWithCGPoint:CGPointMake(w, h)]];
+    }
+  } else if (itemType == 1) {
+    // 세로로 1줄 없애기
+    int w = rand() % ggConfig.BoardWidth + 1;
+    
+    for (int h = 1; h<=ggConfig.BoardHeight; h++) {
+      [gems addObject:[NSValue valueWithCGPoint:CGPointMake(w, h)]];
+    }
+  } else if (itemType == 0) {
+    // 임의의 1색 없애기
+    int gemType = rand() % ggConfig.GemTypeCount + 1;
+    CCLOG(@"explode gemType:%d", gemType);
+    for (NSValue *posAsNSValue in _board) {
+      NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
+      ggBoardStruct bs;
+      [valueFrom_board getValue:&bs];
+
+      if (bs.gemType == gemType) {
+        [gems addObject:posAsNSValue];
+      }
+    }
   }
+  
+  //
+  [self gemBurst:gems];
+  // TODO: 빈칸채우기
+  NSMutableDictionary *blankColumns = [self __gravityJob:gems];
+  // 다시 gem drop
+  [self __fillBlank:blankColumns];
+
+  
+  // 아이템 없애기
   [_thisCCLayer removeChild:s cleanup:YES];
 }
 
