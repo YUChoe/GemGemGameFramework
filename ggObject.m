@@ -239,7 +239,11 @@
 }
 
 -(void) touchesEnded:(CGPoint)touchedLocation {
-
+  // items 영역 touched
+  if (touchedLocation.y < ggConfig.BoardAnchorPosition.y) {
+    if ([_thisItems touchesEnded:touchedLocation]) return;
+  }
+  // gems / board 영역 touched
   for (NSValue *posAsNSValue in _board) {
     NSValue *valueFrom_board = [_board objectForKey:posAsNSValue];
     ggBoardStruct bs;

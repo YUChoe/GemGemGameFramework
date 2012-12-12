@@ -53,4 +53,17 @@
 
 }
 
+-(BOOL) touchesEnded:(CGPoint)toucheslocation {
+  for (int idx=0; idx<[items count]; idx++) {
+    NSMutableArray *i = [items objectAtIndex:idx];
+    CCSprite *s = [i objectAtIndex:0];
+    
+    if (CGRectContainsPoint(s.boundingBox, toucheslocation)) {
+      CCLOG(@"touched item[%d]", idx);
+      
+      return YES;
+    }
+  }
+  return NO;
+}
 @end

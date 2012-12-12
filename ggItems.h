@@ -23,4 +23,6 @@
 -(void) pushItem:(int)itemType;
 -(NSMutableArray *) popItem;
 
+-(BOOL) touchesEnded:(CGPoint)toucheslocation;
+
 @end
