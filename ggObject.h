@@ -66,6 +66,7 @@ typedef struct ggConfigStruct ggConfigStruct;
   ggItems             *_thisItems;
   
   int                 _gameScore;
+  int                 _nextBonusScore;
   
   CGPoint             _lastEventTouchPoint;
 }

@@ -25,10 +25,10 @@
   
   NSString *filename = [NSString stringWithFormat:@"item_%d.png", itemType];
   CCLOG(@"new item : filename(%@)", filename);
-  if (itemType == 0) { // test
+  //if (itemType == 0) { // test
     //@"item_default.png"
     filename = @"pause.png";
-  }
+  //}
   CCSprite *s = [CCSprite spriteWithFile:filename];
   // starting position
   s.position = ccpAdd(_anchorPoint, ccp(70 * 5,0));

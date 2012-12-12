@@ -17,7 +17,9 @@
     _ggConfig = [[NSMutableDictionary alloc] init];
     _thisCCLayer = _layer;
     
-    //[self loadDefaultConfiguration];
+    _gameScore = 0;
+    _nextBonusScore = 500;
+    
     _thisStatus = ggStatusINIT;
   } else {
     CCLOG(@"init failed : crash");
@@ -200,10 +202,6 @@
   
   //TEST
   [_thisItems pushItem:0];
-    [_thisItems pushItem:0];
-    [_thisItems pushItem:0];
-    [_thisItems pushItem:0];
-    [_thisItems pushItem:0];
   
   //step 5 : timer 초기화 + 이벤트 받을 셀렉터 설정
   if (ggConfig.GameType == 1) {
@@ -237,6 +235,13 @@
   CCLOG(@"after bonus:%.1f", [_thisTimer getCurrentValue]);
   
 }
+
+-(void) __giveBonusItemRandomly {
+  int itemType = rand() % 2; // 0,1,2 TEST
+  CCLOG(@"item 추가:%d", itemType);
+  [_thisItems pushItem:(itemType)];
+}
+
 -(void) __itemEffect:(NSMutableArray *)item {
   CCSprite *s = [item objectAtIndex:0];
   int itemType = [[item objectAtIndex:1] intValue];
@@ -362,7 +367,11 @@
     }
 
     [self __giveBonusTime:1];
-
+    
+    if (_gameScore > _nextBonusScore) { // TEST every 500 points
+      [self __giveBonusItemRandomly];
+      _nextBonusScore = _nextBonusScore + 500;
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_BURST object:self];
     
     // 다시 gem drop
