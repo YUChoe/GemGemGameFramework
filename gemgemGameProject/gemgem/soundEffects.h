@@ -18,6 +18,7 @@
 
 -(id) init;
 -(void) setMute:(BOOL)mute;
+-(BOOL) isMute;
 
 -(void) setSoundEffectWithFilename:(NSString *)filename;
 -(void) playSoundEffectByIndex:(int)index;

@@ -27,6 +27,10 @@
   return self;
 }
 -(void) setMute:(BOOL)mute {
+  isMute = mute;
+}
+-(BOOL) isMute {
+  return isMute;
 }
 
 -(void) setSoundEffectWithFilename:(NSString *)filename {
