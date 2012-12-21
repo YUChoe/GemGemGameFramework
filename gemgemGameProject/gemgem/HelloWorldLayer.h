@@ -12,6 +12,7 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 #import "ggObject.h"
+#import "soundEffects.h"
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
@@ -22,6 +23,7 @@
   CCSprite            *pauseButtonSprite;
   BOOL _isGamePaused;
   NSMutableArray *overLayerObjects;
+  soundEffects *seff;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

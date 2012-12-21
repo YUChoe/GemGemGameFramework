@@ -9,7 +9,7 @@
 
 #import "HelloWorldLayer.h"
 #import "AppDelegate.h"
-#import "SimpleAudioEngine.h"
+//#import "SimpleAudioEngine.h"
 
 #pragma mark - HelloWorldLayer
 
@@ -34,6 +34,7 @@
     self.isTouchEnabled = YES;
     _isGamePaused = NO;
     overLayerObjects = [[NSMutableArray alloc] init];
+    seff = [[soundEffects alloc] init];
     
     CGSize size = [[CCDirector sharedDirector] winSize];
 
@@ -79,6 +80,7 @@
 }
 
 -(void) finishLoading {
+  /*
   SimpleAudioEngine *sae = [SimpleAudioEngine sharedEngine];
   if (sae != nil) {
     [sae preloadBackgroundMusic:@"bombexplosion.wav"];
@@ -87,6 +89,10 @@
       sae.backgroundMusicVolume = 0.5f;
     }
   } // of preloading
+  */
+  [seff setSoundEffectWithFilename:@"bombexplosion.wav"]; // idx0
+  [seff setSoundEffectWithFilename:@"108934__soundcollectah__bottle-ping.aiff"]; // idx1
+  
   
   GG = [[ggObject alloc] initWithCCLayer:self];
   [GG loadDefaultConfiguration]; // issue#5, #17 관련
@@ -139,7 +145,8 @@
 
 -(void) soundEffect_burst:(NSNotification *)notification {
   //CCLOG(@"soundEffect_burst");
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
+  //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
+  [seff playSoundEffectByIndex:1]; // ping!
 }
 
 -(void) drawShadow {
