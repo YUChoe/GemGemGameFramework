@@ -706,6 +706,10 @@
         [gemSpr runAction:[CCSequence actions:
                            [CCDelayTime actionWithDuration:0.2f],
                            [CCMoveTo actionWithDuration:(0.2f) position:bs_blank.position],
+                           [CCCallBlock actionWithBlock:^{
+          [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_DROP object:self];
+
+                           }],
                            nil]
          ];
         

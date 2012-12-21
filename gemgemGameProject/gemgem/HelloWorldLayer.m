@@ -114,6 +114,10 @@
                                            selector:@selector(soundEffect_burst:)
                                                name:GG_NOTIFICATION_ACTION_BURST
                                              object:GG];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(soundEffect_drop:)
+                                               name:GG_NOTIFICATION_ACTION_DROP
+                                             object:GG];
   
   
       
@@ -147,6 +151,9 @@
   //CCLOG(@"soundEffect_burst");
   //[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"bombexplosion.wav" loop:NO];
   [seff playSoundEffectByIndex:1]; // ping!
+}
+-(void) soundEffect_drop:(NSNotification *)notification {
+  [seff playSoundEffectByIndex:0]; // bang!
 }
 
 -(void) drawShadow {
