@@ -35,7 +35,8 @@
 
 -(void) setSoundEffectWithFilename:(NSString *)filename {
   if (sae != nil) {
-    [sae preloadBackgroundMusic:filename];//@"bombexplosion.wav"];
+    //[sae preloadBackgroundMusic:filename];//@"bombexplosion.wav"];
+    [sae preloadEffect:filename];
     [effObjs addObject:filename];
     NSLog(@"sound effects[%d]:%@", [effObjs count]-1, filename);
   } else {
@@ -46,7 +47,8 @@
   if (isMute == NO) {
     NSString *filename = [effObjs objectAtIndex:index];
     NSLog(@"playSoundEffectByIndex[%d]:%@", index, filename);
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:filename loop:NO];
+    //[sae playBackgroundMusic:filename loop:NO];
+    [sae playEffect:filename];
   }
 }
 
