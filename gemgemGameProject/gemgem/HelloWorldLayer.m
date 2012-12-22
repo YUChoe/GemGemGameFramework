@@ -63,6 +63,34 @@
         [overLayerObjects addObject:label];
         
         [self addChild: label z:99];
+        
+        CCMenu *menu;
+        
+        CCMenuItem *itemRestart = [CCMenuItemFont itemWithString:@"Restart" block:^(id sender){
+          [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer nodeWithGameType:_GameType]];
+        }
+                                   ];
+
+        CCMenuItem *itemResume = [CCMenuItemFont itemWithString:@"Resume" block:^(id sender) {
+          // resume
+          for (id obj in overLayerObjects) {
+            [self removeChild:obj cleanup:YES];
+          }
+          _isGamePaused = NO;
+          [GG setGameResume];
+
+        }
+                                       ];
+        
+        menu = [CCMenu menuWithItems:itemRestart, itemResume, nil];
+        
+        [menu alignItemsHorizontallyWithPadding:20];
+        [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
+        
+        // Add the menu to the layer
+        [overLayerObjects addObject:menu];
+        [self addChild:menu z:99];
+        
         [GG setGamePause];
         
       } else {
@@ -80,16 +108,7 @@
 }
 
 -(void) finishLoading {
-  /*
-  SimpleAudioEngine *sae = [SimpleAudioEngine sharedEngine];
-  if (sae != nil) {
-    [sae preloadBackgroundMusic:@"bombexplosion.wav"];
-    
-    if (sae.willPlayBackgroundMusic) {
-      sae.backgroundMusicVolume = 0.5f;
-    }
-  } // of preloading
-  */
+
   [seff setSoundEffectWithFilename:@"bombexplosion.wav"]; // idx0
   [seff setSoundEffectWithFilename:@"108934__soundcollectah__bottle-ping.aiff"]; // idx1
   
@@ -126,13 +145,8 @@
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   if (_isGamePaused == YES) {
-    // resume
-    for (id obj in overLayerObjects) {
-      [self removeChild:obj cleanup:YES];
-    }
-    _isGamePaused = NO;
-    [GG setGameResume];
-    //menuButtons.visible = YES;
+    /*
+     */
   } else {
   
   NSArray* allTouches = [[event allTouches] allObjects];
@@ -192,7 +206,7 @@
   [CCMenuItemFont setFontSize:20];
   CCMenu *menu;
   
-  CCMenuItem *itemReplay = [CCMenuItemFont itemWithString:@"Replay" block:^(id sender){
+  CCMenuItem *itemRestart = [CCMenuItemFont itemWithString:@"Restart" block:^(id sender){
     //[[CCDirector sharedDirector] replaceScene:[CCTransitionMoveInR transitionWithDuration:0.5f scene:[HelloWorldLayer scene]]];
     [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer nodeWithGameType:_GameType]];
   }
@@ -208,7 +222,7 @@
   }
                                  ];
   
-  menu = [CCMenu menuWithItems:itemReplay, itemLeaderboard, nil];
+  menu = [CCMenu menuWithItems:itemRestart, itemLeaderboard, nil];
   
   [menu alignItemsHorizontallyWithPadding:20];
   [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
