@@ -153,7 +153,8 @@
   [seff playSoundEffectByIndex:1]; // ping!
 }
 -(void) soundEffect_drop:(NSNotification *)notification {
-  [seff playSoundEffectByIndex:0]; // bang!
+  [seff playSoundEffectByIndex:1]; // ping!
+  //[seff playSoundEffectByIndex:0]; // bang!
 }
 
 -(void) drawShadow {

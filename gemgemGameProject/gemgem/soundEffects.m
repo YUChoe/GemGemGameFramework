@@ -46,7 +46,7 @@
 -(void) playSoundEffectByIndex:(int)index {
   if (isMute == NO) {
     NSString *filename = [effObjs objectAtIndex:index];
-    NSLog(@"playSoundEffectByIndex[%d]:%@", index, filename);
+    //NSLog(@"playSoundEffectByIndex[%d]:%@", index, filename);
     //[sae playBackgroundMusic:filename loop:NO];
     [sae playEffect:filename];
   }
