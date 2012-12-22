@@ -408,7 +408,6 @@
 
 }
 
-
 -(BOOL) __isPossible:(NSMutableDictionary *)_tempBoard {
   NSMutableArray *gems = [[NSMutableArray alloc] init]; // 연속 확인 할 결과물
   NSMutableArray *checkedGem = [[NSMutableArray alloc] init]; // 확인 했는지 체크 gems 가 돌아오면 여기에 더한다
@@ -523,8 +522,12 @@
         [_thisCCLayer addChild:g z:10];
         
         CCAction *ani =
+        [CCSequence actions:
         [CCSpawn actionOne:[CCCallBlock actionWithBlock:^{ [g runAction:[CCMoveTo actionWithDuration:dropSpeed position:_targetPosition]]; }]
-                       two:[CCDelayTime actionWithDuration:(_speed_unit * 1.2f)] ];
+                       two:[CCDelayTime actionWithDuration:(_speed_unit * 1.2f)] ],
+         [CCCallBlock actionWithBlock:^{
+           [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_DROP object:self];
+        }],nil];
         
         //
         [actions addObject:ani];
@@ -705,14 +708,9 @@
         // fallingGemPos -> blankBoardPos 애니메이션
         [gemSpr runAction:[CCSequence actions:
                            [CCDelayTime actionWithDuration:0.2f],
-                           [CCMoveTo actionWithDuration:(0.2f) position:bs_blank.position],
-                           [CCCallBlock actionWithBlock:^{
-          [[NSNotificationCenter defaultCenter] postNotificationName:GG_NOTIFICATION_ACTION_DROP object:self];
-
-                           }],
+                           [CCSpawn actionOne:[CCDelayTime actionWithDuration:0.2f] two:[CCMoveTo actionWithDuration:(0.2f) position:bs_blank.position]],
                            nil]
          ];
-        
         blankBoardPos = nil;
         fallingGemPos = nil;
         
