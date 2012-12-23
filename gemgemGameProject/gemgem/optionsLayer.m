@@ -44,6 +44,15 @@
     [menu alignItemsVerticallyWithPadding:10];
     [menu setPosition:ccp( size.width/2, 50)];
     
+    // 2menus test
+    CCMenu *menu2 = [CCMenu menuWithItems:
+                     [CCMenuItemFont itemWithString:@"Backgound Music : ON" block:^(id sender){}],
+                     [CCMenuItemFont itemWithString:@"Sound Effect : ON" block:^(id sender){}],
+                     nil];
+    [menu2 alignItemsVerticallyWithPadding:20];
+    [menu2 setPosition:ccp( size.width/2, header.position.y - 100)];
+    [self addChild:menu2 z:98];
+    
     // Add the menu to the layer
     [self addChild:menu z:99];
   }
