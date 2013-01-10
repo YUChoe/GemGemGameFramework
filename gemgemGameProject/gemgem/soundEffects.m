@@ -17,11 +17,15 @@
     isMute = NO;
     
     sae = [SimpleAudioEngine sharedEngine];
+    
+    [[CDAudioManager sharedManager] setMode: kAMM_FxOnly];
+    
     if (sae != nil) {
       if (sae.willPlayBackgroundMusic) {
         sae.backgroundMusicVolume = 0.5f;
+        sae.effectsVolume = 0.5f;
       }
-    } // of preloading
+    }
 
   }
   return self;

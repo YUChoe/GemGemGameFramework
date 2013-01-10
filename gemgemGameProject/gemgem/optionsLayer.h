@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface optionsLayer : CCLayer {
-    
+@interface optionsLayer : CCLayer {  
+  NSString *plist_path;
+  NSData *plist_Data;
+  
+  BOOL _isBackgroundMusicON;
+  BOOL _isEffectSoundON;
 }
 
 +(CCScene *) scene;
