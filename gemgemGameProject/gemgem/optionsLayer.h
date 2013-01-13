@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+#define CONFIG_PLIST_FILENAME @"GemConfig"
+
 @interface optionsLayer : CCLayer {  
-  NSString *plist_path;
-  NSData *plist_Data;
+  //NSString *plist_path;
+  //NSData *plist_Data;
   
   BOOL _isBackgroundMusicON;
   BOOL _isEffectSoundON;

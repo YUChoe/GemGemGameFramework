@@ -20,21 +20,45 @@
 }
 
 -(void) readConfigFromDataplist {
-  NSMutableString *message = [NSMutableString string];
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  //CCLOG(@"Documents path:%@",documentsDirectory);
   
-  NSDictionary *confDict = [[NSBundle mainBundle] infoDictionary];
-  NSLog(@"infoDict, count = %d", [[confDict allKeys] count]);
-  /*
-  for (NSString *key in [confDict allKeys]) {
-    CCLOG(@"confDict[%@]", key);
+  NSString *plistPath = [documentsDirectory stringByAppendingString:[NSString stringWithFormat:@"/%@.plist", CONFIG_PLIST_FILENAME]];
+  NSDictionary *confDict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+  //CCLOG(@"confDict:%@", confDict);
+
+  if ([confDict objectForKey:@"isBackgroundMusicON"] != nil) {
+    _isBackgroundMusicON = [[confDict objectForKey:@"isBackgroundMusicON"] boolValue];
+  } else {
+    [self saveConfigToDataplist];
+    return;
   }
-  */
-  //[confDict objectForKey:@"isBackgroundMusicON"];
   
+  if ([confDict objectForKey:@"isEffectSoundON"] != nil) {
+    _isEffectSoundON = [[confDict objectForKey:@"isEffectSoundON"] boolValue];
+  } else {
+    [self saveConfigToDataplist];
+    return;
+  }
 }
 
 -(void) saveConfigToDataplist {
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  //CCLOG(@"Documents path:%@",documentsDirectory);
   
+  NSString *plistPath = [documentsDirectory stringByAppendingString:[NSString stringWithFormat:@"/%@.plist", CONFIG_PLIST_FILENAME]];
+
+  NSMutableDictionary *confDict = [[[NSMutableDictionary alloc]init]  autorelease];
+  
+  [confDict setObject:[NSNumber numberWithBool:_isBackgroundMusicON] forKey:@"isBackgroundMusicON"];
+  [confDict setObject:[NSNumber numberWithBool:_isEffectSoundON] forKey:@"isEffectSoundON"];
+  
+  [confDict writeToFile:plistPath atomically:YES];
+
+  
+  //CCLOG(@"writeToFile:%@",plistPath);
 }
 
 -(id)init {
@@ -53,29 +77,25 @@
     [self addChild:header z:999];
 
     // init config data file path of data.plist
-    //plist_path = [[NSBundle mainBundle] pathForResource:@"GemConfig" ofType:@"plist"];
-    //plist_path = [[NSBundle bundleForClass:[self class]] pathForResource:@"GemConfig" ofType:@"plist"];
-    //plist_path = (NSString *)[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"GemConfig.plist"];
-    //CCLOG(@"GemConfig.plist:%@", plist_path);
     [self readConfigFromDataplist];
-    CCLOG(@"_isBackgroundMusicON:%@", (_isBackgroundMusicON)?@"YES":@"NO");
-    CCLOG(@"_isEffectSoungON:%@", (_isEffectSoundON)?@"YES":@"NO");
+    //CCLOG(@"_isBackgroundMusicON:%@", (_isBackgroundMusicON)?@"YES":@"NO");
+    //CCLOG(@"_isEffectSoungON:%@", (_isEffectSoundON)?@"YES":@"NO");
     
     // ON/OFF menu
     CCMenuItemFont *bgToggleItem = [CCMenuItemFont itemWithString:(_isBackgroundMusicON)?@"Backgound Music : ON":@"Backgound Music : OFF" block:^(id sender){
       _isBackgroundMusicON = !_isBackgroundMusicON;
-      CCLOG(@"_isBackgroundMusicON:%@", (_isBackgroundMusicON)?@"YES":@"NO");
+      //CCLOG(@"_isBackgroundMusicON:%@", (_isBackgroundMusicON)?@"YES":@"NO");
       // update Data.plist
-      
+      [self saveConfigToDataplist];
       // update sender MenuItem
       [sender setString:(_isBackgroundMusicON)?@"Backgound Music : ON":@"Backgound Music : OFF"];
     }];
     
     CCMenuItemFont *efToggleItem = [CCMenuItemFont itemWithString:(_isEffectSoundON)?@"Sound Effect : ON":@"Sound Effect : OFF" block:^(id sender){
       _isEffectSoundON = !_isEffectSoundON;
-      CCLOG(@"_isEffectSoungON:%@", (_isEffectSoundON)?@"YES":@"NO");
+      //CCLOG(@"_isEffectSoungON:%@", (_isEffectSoundON)?@"YES":@"NO");
       // update Data.plist
-      
+      [self saveConfigToDataplist];
       // update sender MenuItem
       [sender setString:(_isEffectSoundON)?@"Sound Effect : ON":@"Sound Effect : OFF"];
     }];
