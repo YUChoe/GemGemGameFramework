@@ -7,6 +7,7 @@
 //
 
 #import "soundEffects.h"
+#import "optionsLayer.h"
 
 @implementation soundEffects
 
@@ -15,6 +16,7 @@
   if( (self=[super init])) {
     effObjs = [[NSMutableArray alloc] init];
     isMute = NO;
+    [self updateByConfig]; // isMute, isNoBGMusic, etc
     
     sae = [SimpleAudioEngine sharedEngine];
     
@@ -30,11 +32,32 @@
   }
   return self;
 }
+
+-(void) updateByConfig {
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+  //CCLOG(@"Documents path:%@",documentsDirectory);
+  
+  NSString *plistPath = [documentsDirectory stringByAppendingString:[NSString stringWithFormat:@"/%@.plist", CONFIG_PLIST_FILENAME]];
+  NSDictionary *confDict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+  //CCLOG(@"confDict:%@", confDict);
+  
+  [self setMute: ![[confDict objectForKey:@"isEffectSoundON"] boolValue]];
+  [self setNoBGMusic: ![[confDict objectForKey:@"isBackgroundMusicON"] boolValue]];
+}
+
 -(void) setMute:(BOOL)mute {
   isMute = mute;
 }
 -(BOOL) isMute {
   return isMute;
+}
+
+-(void) setNoBGMusic:(BOOL)noBGMusic {
+  isNoBGMusic = noBGMusic;
+}
+-(BOOL) isNoBGMusic {
+  return isNoBGMusic;
 }
 
 -(void) setSoundEffectWithFilename:(NSString *)filename {
