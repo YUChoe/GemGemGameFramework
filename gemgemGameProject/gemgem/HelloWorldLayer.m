@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 //#import "SimpleAudioEngine.h"
 
+#import "mainMenuLayer.h"
+
 #pragma mark - HelloWorldLayer
 
 @implementation HelloWorldLayer
@@ -80,9 +82,16 @@
           [GG setGameResume];
 
         }
-                                       ];
+                                  ];
+
+        CCMenuItem *backToMenu = [CCMenuItemFont itemWithString:@"Main Menu" block:^(id sender) {
+          [[CCDirector sharedDirector] replaceScene:
+           [CCTransitionFade transitionWithDuration:1.0
+                                              scene:[mainMenuLayer scene] withColor:ccWHITE]
+           ];
+        }];
         
-        menu = [CCMenu menuWithItems:itemRestart, itemResume, nil];
+        menu = [CCMenu menuWithItems:itemRestart, itemResume,backToMenu, nil];
         
         [menu alignItemsHorizontallyWithPadding:20];
         [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
@@ -212,6 +221,14 @@
   }
                             ];
   
+  CCMenuItem *backToMenu = [CCMenuItemFont itemWithString:@"Main Menu" block:^(id sender) {
+    [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionFade transitionWithDuration:1.0
+                                        scene:[mainMenuLayer scene] withColor:ccWHITE]
+     ];
+  }];
+  
+  
   // Leaderboard Menu Item using blocks
   CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
     GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
@@ -222,7 +239,7 @@
   }
                                  ];
   
-  menu = [CCMenu menuWithItems:itemRestart, itemLeaderboard, nil];
+  menu = [CCMenu menuWithItems:itemRestart, backToMenu, itemLeaderboard, nil];
   
   [menu alignItemsHorizontallyWithPadding:20];
   [menu setPosition:ccp( size.width/2, size.height/2 - 50)];
