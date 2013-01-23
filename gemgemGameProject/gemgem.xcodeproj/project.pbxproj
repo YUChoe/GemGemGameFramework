@@ -198,6 +198,11 @@
 		EE05A043166CA21100F280D4 /* timer_bar_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bar_yellow.png; sourceTree = "<group>"; };
 		EE05A1FB166F45A000F280D4 /* bombexplosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bombexplosion.wav; sourceTree = SOURCE_ROOT; };
 		EE05A20016704D5100F280D4 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = SOURCE_ROOT; };
+		EE697FE516B0534F00165E36 /* AdRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdRootViewController.h; sourceTree = "<group>"; };
+		EE697FE616B0534F00165E36 /* AdRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdRootViewController.m; sourceTree = "<group>"; };
+		EE697FE716B0534F00165E36 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		EE697FE816B0534F00165E36 /* iAdsTestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iAdsTestAppDelegate.h; sourceTree = "<group>"; };
+		EE697FE916B0534F00165E36 /* iAdsTestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iAdsTestAppDelegate.m; sourceTree = "<group>"; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -639,6 +644,18 @@
 			name = userScenes;
 			sourceTree = "<group>";
 		};
+		EE697FE416B0531B00165E36 /* iAdViewController */ = {
+			isa = PBXGroup;
+			children = (
+				EE697FE516B0534F00165E36 /* AdRootViewController.h */,
+				EE697FE616B0534F00165E36 /* AdRootViewController.m */,
+				EE697FE716B0534F00165E36 /* GameConfig.h */,
+				EE697FE816B0534F00165E36 /* iAdsTestAppDelegate.h */,
+				EE697FE916B0534F00165E36 /* iAdsTestAppDelegate.m */,
+			);
+			name = iAdViewController;
+			sourceTree = "<group>";
+		};
 		EE6A14EB1660755F00DDCE93 = {
 			isa = PBXGroup;
 			children = (
@@ -675,6 +692,7 @@
 		EE6A150C1660755F00DDCE93 /* gemgem */ = {
 			isa = PBXGroup;
 			children = (
+				EE697FE416B0531B00165E36 /* iAdViewController */,
 				EE05A02B1668803E00F280D4 /* userScenes */,
 				EE6A16841660756100DDCE93 /* AppDelegate.h */,
 				EE6A16851660756100DDCE93 /* AppDelegate.m */,
