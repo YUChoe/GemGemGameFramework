@@ -28,6 +28,11 @@
 		EE05A046166CA21100F280D4 /* timer_bar_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A043166CA21100F280D4 /* timer_bar_yellow.png */; };
 		EE05A1FC166F45A000F280D4 /* bombexplosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = EE05A1FB166F45A000F280D4 /* bombexplosion.wav */; };
 		EE05A20116704D5100F280D4 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = EE05A20016704D5100F280D4 /* pause.png */; };
+		EE697FF716B27EC700165E36 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE84EB4216A528F50038CED2 /* libGoogleAdMobAds.a */; };
+		EE697FF916B27EE200165E36 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE697FF816B27EE200165E36 /* MessageUI.framework */; };
+		EE697FFB16B27F2600165E36 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE697FFA16B27F2600165E36 /* StoreKit.framework */; };
+		EE697FFD16B27F3600165E36 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE697FFC16B27F3600165E36 /* SystemConfiguration.framework */; };
+		EE697FFF16B27F4300165E36 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE697FFE16B27F4300165E36 /* AdSupport.framework */; };
 		EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */; };
 		EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */; };
 		EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A14FE1660755F00DDCE93 /* OpenAL.framework */; };
@@ -198,11 +203,10 @@
 		EE05A043166CA21100F280D4 /* timer_bar_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_bar_yellow.png; sourceTree = "<group>"; };
 		EE05A1FB166F45A000F280D4 /* bombexplosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bombexplosion.wav; sourceTree = SOURCE_ROOT; };
 		EE05A20016704D5100F280D4 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = SOURCE_ROOT; };
-		EE697FE516B0534F00165E36 /* AdRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdRootViewController.h; sourceTree = "<group>"; };
-		EE697FE616B0534F00165E36 /* AdRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdRootViewController.m; sourceTree = "<group>"; };
-		EE697FE716B0534F00165E36 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
-		EE697FE816B0534F00165E36 /* iAdsTestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iAdsTestAppDelegate.h; sourceTree = "<group>"; };
-		EE697FE916B0534F00165E36 /* iAdsTestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iAdsTestAppDelegate.m; sourceTree = "<group>"; };
+		EE697FF816B27EE200165E36 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		EE697FFA16B27F2600165E36 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		EE697FFC16B27F3600165E36 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EE697FFE16B27F4300165E36 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		EE6A14F61660755F00DDCE93 /* gemgem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gemgem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -560,14 +564,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */,
-				EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */,
-				EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */,
-				EE6A15011660755F00DDCE93 /* AudioToolbox.framework in Frameworks */,
-				EE6A15031660755F00DDCE93 /* AVFoundation.framework in Frameworks */,
-				EE6A15051660755F00DDCE93 /* UIKit.framework in Frameworks */,
-				EE6A15071660755F00DDCE93 /* Foundation.framework in Frameworks */,
+				EE697FFF16B27F4300165E36 /* AdSupport.framework in Frameworks */,
+				EE697FFD16B27F3600165E36 /* SystemConfiguration.framework in Frameworks */,
+				EE697FFB16B27F2600165E36 /* StoreKit.framework in Frameworks */,
+				EE697FF916B27EE200165E36 /* MessageUI.framework in Frameworks */,
+				EE697FF716B27EC700165E36 /* libGoogleAdMobAds.a in Frameworks */,
 				EE6A15091660755F00DDCE93 /* CoreGraphics.framework in Frameworks */,
+				EE6A15071660755F00DDCE93 /* Foundation.framework in Frameworks */,
+				EE6A14FD1660755F00DDCE93 /* OpenGLES.framework in Frameworks */,
+				EE6A14FB1660755F00DDCE93 /* QuartzCore.framework in Frameworks */,
+				EE6A15051660755F00DDCE93 /* UIKit.framework in Frameworks */,
+				EE6A15011660755F00DDCE93 /* AudioToolbox.framework in Frameworks */,
+				EE6A14FF1660755F00DDCE93 /* OpenAL.framework in Frameworks */,
+				EE6A15031660755F00DDCE93 /* AVFoundation.framework in Frameworks */,
 				EE6A150B1660755F00DDCE93 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,18 +653,6 @@
 			name = userScenes;
 			sourceTree = "<group>";
 		};
-		EE697FE416B0531B00165E36 /* iAdViewController */ = {
-			isa = PBXGroup;
-			children = (
-				EE697FE516B0534F00165E36 /* AdRootViewController.h */,
-				EE697FE616B0534F00165E36 /* AdRootViewController.m */,
-				EE697FE716B0534F00165E36 /* GameConfig.h */,
-				EE697FE816B0534F00165E36 /* iAdsTestAppDelegate.h */,
-				EE697FE916B0534F00165E36 /* iAdsTestAppDelegate.m */,
-			);
-			name = iAdViewController;
-			sourceTree = "<group>";
-		};
 		EE6A14EB1660755F00DDCE93 = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +673,10 @@
 		EE6A14F91660755F00DDCE93 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE697FFE16B27F4300165E36 /* AdSupport.framework */,
+				EE697FFC16B27F3600165E36 /* SystemConfiguration.framework */,
+				EE697FFA16B27F2600165E36 /* StoreKit.framework */,
+				EE697FF816B27EE200165E36 /* MessageUI.framework */,
 				EE6A14FA1660755F00DDCE93 /* QuartzCore.framework */,
 				EE6A14FC1660755F00DDCE93 /* OpenGLES.framework */,
 				EE6A14FE1660755F00DDCE93 /* OpenAL.framework */,
@@ -692,7 +693,6 @@
 		EE6A150C1660755F00DDCE93 /* gemgem */ = {
 			isa = PBXGroup;
 			children = (
-				EE697FE416B0531B00165E36 /* iAdViewController */,
 				EE05A02B1668803E00F280D4 /* userScenes */,
 				EE6A16841660756100DDCE93 /* AppDelegate.h */,
 				EE6A16851660756100DDCE93 /* AppDelegate.m */,
@@ -1551,6 +1551,10 @@
 				GCC_PREFIX_HEADER = gemgem/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"gemgem/libs/kazmath/include\"";
 				INFOPLIST_FILE = gemgem/Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../GoogleAdMobAdsSdkiOS-6.2.1\"",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -1569,6 +1573,10 @@
 				GCC_PREFIX_HEADER = gemgem/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"gemgem/libs/kazmath/include\"";
 				INFOPLIST_FILE = gemgem/Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../GoogleAdMobAdsSdkiOS-6.2.1\"",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
