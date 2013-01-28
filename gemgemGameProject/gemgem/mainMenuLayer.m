@@ -69,8 +69,8 @@
   mBannerView.frame = frame;
   
   //CCLOG(@"s: w,h = %.0f,%.0f", s.width, s.height);
-  CGRect rect2 = (CGRect)mBannerView.frame;
-  CCLOG(@"rect2: x,y,w,h = %.0f,%.0f,%.0f,%.0f",rect2.origin.x, rect2.origin.y,rect2.size.width,rect2.size.height);
+  //CGRect rect2 = (CGRect)mBannerView.frame;
+  //CCLOG(@"rect2: x,y,w,h = %.0f,%.0f,%.0f,%.0f",rect2.origin.x, rect2.origin.y,rect2.size.width,rect2.size.height);
   
   [UIView commitAnimations];  
 }
