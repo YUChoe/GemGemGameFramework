@@ -9,8 +9,10 @@
 #import <GameKit/GameKit.h>
 #import "cocos2d.h"
 
+#import "GADBannerView.h"
+
 @interface mainMenuLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate> {
-    
+  GADBannerView *mBannerView;
 }
 
 +(CCScene *) scene;
